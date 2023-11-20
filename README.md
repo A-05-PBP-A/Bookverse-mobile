@@ -7,6 +7,7 @@
 
 # BookVerse - Dunia Literasi Terhubung 🌌👨🏻‍🚀🤖
 > Akses Website di: [bookverse-a05-tk.pbp.cs.ui.ac.id](http://bookverse-a05-tk.pbp.cs.ui.ac.id/)
+> Link Berita acara bisa dicek di [sini](https://docs.google.com/spreadsheets/d/189uLlMBih-4OS9AlBQUHUaPSAH3IlxlMm8XZ8HZyupo/edit#gid=1443036776)
 ## **Deskripsi :** 
 Perkembangan teknologi digital telah mengubah dunia dengan cara yang belum pernah kita bayangkan sebelumnya. Dengan kecepatan yang luar biasa, teknologi baru muncul dan mengubah cara kita berinteraksi, bekerja, dan hidup. Dari smartphone dan tablet hingga cloud computing dan kecerdasan buatan, teknologi digital telah menjadi bagian tak terpisahkan dari kehidupan sehari-hari kita. Namun seiring dengan perkembangan yang cepat, datang pula “bising” - informasi berlebihan, gangguan konstan, dan tantangan untuk menjaga privasi dan keamanan data kita. Media sosial sebagai contoh, meski memberikan cara baru untuk berkomunikasi dan berbagi informasi, juga dapat menjadi sumber stres dan kecemasan. Di tengah derasnya arus informasi, semangat literasi menjadi senjata kita agar terhindar dari misinformasi dan disinformasi.
 
