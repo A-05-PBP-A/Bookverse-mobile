@@ -17,19 +17,19 @@ Dalam kebisingan dunia digital, BookVerse hadir sebagai oase literasi yang mempe
 BookVerse memberikan manfaat yang tak terbatas bagi pengguna. Pertama, BookVerse menginspirasi minat membaca dan mempromosikan kesadaran akan pentingnya literasi dalam masyarakat. Pengguna dapat menggali ide-ide dalam buku bersama-sama, berbagi pandangan mereka, dan memperluas wawasan mereka dengan berinteraksi dengan pembaca dari berbagai budaya. Selain itu, BookVerse memungkinkan pengguna untuk berpartisipasi dalam misi literasi global, memberikan kontribusi positif terhadap upaya meningkatkan literasi di komunitas mereka. BookVerse menjadi jendela yang menghubungkan, menginspirasi, dan memungkinkan pembaca untuk mengeksplorasi dunia lebih jauh melalui kekuatan kata-kata.
 
 ## **Modul dan Pengembang :**
-1. **Admin** - [Irvan Rizqy Kusuma](https://github.com/IrvanRizqy)
-Modul ini bertanggung jawab untuk semua tugas admin,, seperti menambah katalog buku, menghapus review, dll.
+1. **Admin** - [Irvan Rizqy Kusuma](https://github.com/IrvanRizqy)<br>
+Modul ini bertanggung jawab untuk semua tugas admin, seperti menambah katalog buku, menghapus review, dll.
 
-2. **Pinjam dan Kembalikan Buku** - [Lucinda Laurent](https://github.com/lucindalaurent)
+2. **Pinjam dan Kembalikan Buku** - [Lucinda Laurent](https://github.com/lucindalaurent)<br>
 Modul ini memungkinkan pengguna untuk melakukan peminjaman dan pengembalian buku dalam perpustakaan.
 
-3. **Profil Pengguna** - [Ryandhika Al Afzal](https://github.com/RyanAfzal)
+3. **Profil Pengguna** - [Ryandhika Al Afzal](https://github.com/RyanAfzal)<br>
 Modul ini berfokus pada pengelolaan profil pengguna, seperti history membaca, buku favorit, history review, dll.
 
-4. **Profil Buku dan Review pengguna** - [Fadrian Yhoga Pratama](https://github.com/yhogaa)
+4. **Profil Buku dan Review pengguna** - [Fadrian Yhoga Pratama](https://github.com/yhogaa)<br>
 Modul ini mengelola informasi buku dan ulasan yang diberikan oleh pengguna terhadap buku-buku tertentu.
 
-5. **Daftar Buku** - [Alyanda Astri](https://github.com/astrialyanda)
+5. **Daftar Buku** - [Alyanda Astri](https://github.com/astrialyanda)<br>
 Modul ini untuk menampilkan daftar buku yang tersedia dalam perpustakaan, para pengguna yang belum login juga bisa melihat daftar buku yang tersedia.
 
 ## **_Role User_ :**
@@ -46,5 +46,8 @@ Pengguna dapat menikmati semua fitur yang disediakan oleh "BookVerse", termasuk:
 - **Tampilan Profile**: User dapat meliihat history buku yang sudah dipinjam, history review pada suatu buku, dan buku yang di favorite pada bagia profile
 - **Review Buku**: User dapat menuliskan review untuk suatu buku yang sudah dia baca.
 
-### **Sumber dataset katalog buku**
-Berdasarkan hasil diskusi, Sumber dataset katalog buku yang kami pilih untuk mobile app kami adalah dari **Kaggle** karena menggunakan format csv sehingga memudahkan dalam pengolahan dan pertukaran data. Tampilan website dari kaggle juga menarik dan rapi serta pilihan bukunya yang sangat beragam.
+## **Sumber dataset katalog buku**
+Berdasarkan hasil diskusi, Sumber dataset katalog buku yang kami pilih untuk mobile app kami adalah dari [Kaggle](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset) karena menggunakan format csv sehingga memudahkan dalam pengolahan dan pertukaran data. Tampilan website dari kaggle juga menarik dan rapi serta pilihan bukunya yang sangat beragam.
+
+## **Alur Pengintegrasian dengan Aplikasi Web**
+
