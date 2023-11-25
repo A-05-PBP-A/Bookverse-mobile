@@ -2,10 +2,11 @@
 [![Develop](https://github.com/A-05-PBP-A/Bookverse-mobile/actions/workflows/develop.yml/badge.svg)](https://github.com/A-05-PBP-A/Bookverse-mobile/actions/workflows/develop.yml)
 [![Pre-Release](https://github.com/A-05-PBP-A/Bookverse-mobile/actions/workflows/pre-release.yml/badge.svg)](https://github.com/A-05-PBP-A/Bookverse-mobile/actions/workflows/pre-release.yml)
 [![Release](https://github.com/A-05-PBP-A/Bookverse-mobile/actions/workflows/release.yml/badge.svg)](https://github.com/A-05-PBP-A/Bookverse-mobile/actions/workflows/release.yml)
+[![Build status](https://build.appcenter.ms/v0.1/apps/c190226d-ef05-4c35-bc6f-d2ae2264e41f/branches/master/badge)](https://appcenter.ms)
 
 
 > 🚀 Akses Website: [Bookverse](https://bookverse-a05-tk.pbp.cs.ui.ac.id/) <br>
-> 📱 App Release: [Github](https://github.com/A-05-PBP-A/Bookverse-mobile/releases) & [Microsoft Visual Studio App Center]() <br>
+> 📱 App Release: [Github](https://github.com/A-05-PBP-A/Bookverse-mobile/releases) & [Microsoft Visual Studio App Center](https://install.appcenter.ms/orgs/bookverse/apps/bookverse/distribution_groups/public) <br>
 > 📰 Berita Acara: [Lihat di sini](https://docs.google.com/spreadsheets/d/189uLlMBih-4OS9AlBQUHUaPSAH3IlxlMm8XZ8HZyupo/edit#gid=1443036776)
 
 ### 🌟 Nama Anggota :
