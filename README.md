@@ -6,8 +6,10 @@
 - 2206081502 - Ryandhika Al Afzal
 
 # BookVerse - Dunia Literasi Terhubung 🌌👨🏻‍🚀🤖
-> Akses Website di: [bookverse-a05-tk.pbp.cs.ui.ac.id](http://bookverse-a05-tk.pbp.cs.ui.ac.id/) <br>
+> Akses Website di: [bookverse-a05-tk.pbp.cs.ui.ac.id](https://bookverse-a05-tk.pbp.cs.ui.ac.id/) <br>
 > Link Berita acara bisa dicek di [sini](https://docs.google.com/spreadsheets/d/189uLlMBih-4OS9AlBQUHUaPSAH3IlxlMm8XZ8HZyupo/edit#gid=1443036776)
+
+
 ## **Deskripsi :** 
 Perkembangan teknologi digital telah mengubah dunia dengan cara yang belum pernah kita bayangkan sebelumnya. Dengan kecepatan yang luar biasa, teknologi baru muncul dan mengubah cara kita berinteraksi, bekerja, dan hidup. Dari smartphone dan tablet hingga cloud computing dan kecerdasan buatan, teknologi digital telah menjadi bagian tak terpisahkan dari kehidupan sehari-hari kita. Namun seiring dengan perkembangan yang cepat, datang pula “bising” - informasi berlebihan, gangguan konstan, dan tantangan untuk menjaga privasi dan keamanan data kita. Media sosial sebagai contoh, meski memberikan cara baru untuk berkomunikasi dan berbagi informasi, juga dapat menjadi sumber stres dan kecemasan. Di tengah derasnya arus informasi, semangat literasi menjadi senjata kita agar terhindar dari misinformasi dan disinformasi.
 
@@ -46,8 +48,13 @@ Pengguna dapat menikmati semua fitur yang disediakan oleh "BookVerse", termasuk:
 - **Tampilan Profile**: User dapat meliihat history buku yang sudah dipinjam, history review pada suatu buku, dan buku yang di favorite pada bagia profile
 - **Review Buku**: User dapat menuliskan review untuk suatu buku yang sudah dia baca.
 
-## **Sumber dataset katalog buku**
+### **Sumber dataset katalog buku**
 Berdasarkan hasil diskusi, Sumber dataset katalog buku yang kami pilih untuk mobile app kami adalah dari [Kaggle](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset) karena menggunakan format csv sehingga memudahkan dalam pengolahan dan pertukaran data. Tampilan website dari kaggle juga menarik dan rapi serta pilihan bukunya yang sangat beragam.
 
-## **Alur Pengintegrasian dengan Aplikasi Web**
-
+## ** Alur Pengintegrasian dengan Situs Web**
+1. Mendefinisikan model yang akan digunakan saat pemanggilan web service, beserta method `toJson()` dan `fromJson()`.
+2. Menambahkan dependensi `http` pada proyek aplikasi, serta menambahkan potongan kode untuk memperbolehkan akses internet pada aplikasi Flutter di file `android/app/src/main/AndroidManifest.xml`.
+3. Melakukan fetch data dengan hit endpoint API menggunakan method `POST`, `GET`, `DELETE`, `PUT`, dan lain-lain yang disediakan dependensi `http`.
+4. Data yang sudah di-fetch kemudian di-decode menjadi bentuk JSON.
+5. Data dalam bentuk JSON dikonversi menjadi data dalam bentuk sebuah model.
+6. Data dalam bentuk model tersebut ditampilkan pada aplikasi Flutter.
