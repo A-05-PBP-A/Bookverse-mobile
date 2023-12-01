@@ -7,6 +7,7 @@ class MyHomePage extends StatelessWidget {
     BookItem("Buku 1", "2023", "Publisher 1"),
     BookItem("Buku 2", "2022", "Publisher 2"),
     BookItem("Buku 3", "2021", "Publisher 3"),
+    BookItem("Buku 4", "2020", "Publisher 4"),
   ];
 
   @override
@@ -99,11 +100,13 @@ class BookCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white),
                 ),
+                const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.yearPublished as String,
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white),
                 ),
+                const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.publisher,
                   textAlign: TextAlign.center,
