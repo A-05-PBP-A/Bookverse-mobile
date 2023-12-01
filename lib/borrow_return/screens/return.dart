@@ -43,8 +43,6 @@ class _BorrowingPageState extends State<BorrowingPage> {
     return Scaffold(
         appBar: AppBar(
             title: const Text('My Borrowing(s)'),
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
             actions: [
               Padding(
                   padding: EdgeInsets.only(right: 16),
@@ -54,7 +52,7 @@ class _BorrowingPageState extends State<BorrowingPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BookFormPage()),
+                        MaterialPageRoute(builder: (context) => const BookFormPage()),
                       );
                     },
                   )),

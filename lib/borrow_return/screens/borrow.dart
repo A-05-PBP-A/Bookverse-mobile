@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 //import 'package:cakestock/widgets/left_drawer.dart';
 // import 'package:provider/provider.dart';
 // import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'dart:convert';
 // import 'package:cakestock/screens/menu.dart';
 import 'package:bookverse_mobile/borrow_return/widgets/dropdown.dart';
 import 'package:bookverse_mobile/borrow_return/screens/return.dart';
@@ -27,8 +26,7 @@ class _BookFormPageState extends State<BookFormPage> {
               'Book Loan Form',
             ),
           ),
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
+
         ),
         //drawer: const LeftDrawer(),
         body: Form(
@@ -106,7 +104,7 @@ class _BookFormPageState extends State<BookFormPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                BorrowingPage()),
+                                                const BorrowingPage()),
                                       );
                                     },
                                   ),

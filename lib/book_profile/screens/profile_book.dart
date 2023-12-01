@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatefulWidget {
@@ -90,7 +91,8 @@ class _BookPageState extends State<BookPage> {
               width: 400,
               child: ElevatedButton(
                 onPressed: () {
-                  // Redirect ke page pinjam buku
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const BookFormPage()));
                 },
                 child: Text(
                   'Pinjam',
