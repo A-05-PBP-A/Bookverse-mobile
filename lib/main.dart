@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';<<<<<<< userProfile
-import 'package:bookverse_mobile/user_profile/screens/menu.dart';=======
-import 'package:bookverse_mobile/bookList/screens/landing_page.dart';>>>>>>> dev
+import 'package:flutter/material.dart';
+import 'package:bookverse_mobile/user_profile/screens/menu.dart';
+import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 
 void main() {
   runApp(const MyApp());
