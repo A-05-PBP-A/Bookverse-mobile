@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/user_profile/screens/menu.dart';
+import 'package:flutter/material.dart';<<<<<<< userProfile
+import 'package:bookverse_mobile/user_profile/screens/menu.dart';=======
+import 'package:bookverse_mobile/bookList/screens/landing_page.dart';>>>>>>> dev
 
 void main() {
   runApp(const MyApp());
@@ -13,16 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bookverse',
-      theme: ThemeData(
-        // This is the theme of your application.
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        scaffoldBackgroundColor: Colors.black,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        scaffoldBackgroundColor: Color.fromARGB(255, 222, 222, 255),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 63, 1, 100)),
         useMaterial3: true,
       ),
-      home: UserPage(),
+      home: MyHomePage(),
     );
   }
 }
-
