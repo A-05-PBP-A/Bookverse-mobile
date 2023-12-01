@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class UserPage extends StatelessWidget {
+  UserPage({Key? key}) : super(key: key);
   final List<Functionality> functions = [
     Functionality("Books", Icons.checklist),
     Functionality("Logout", Icons.logout),
