@@ -40,7 +40,8 @@ class _DropdownTitleState extends State<DropdownTitle> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<String>(
+    return Expanded(
+        child: DropdownMenu<String>(
       initialSelection: list.first,
       onSelected: (String? value) {
         // This is called when the user selects an item.
@@ -51,6 +52,6 @@ class _DropdownTitleState extends State<DropdownTitle> {
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
         return DropdownMenuEntry<String>(value: value, label: value);
       }).toList(),
-    );
+    ));
   }
 }

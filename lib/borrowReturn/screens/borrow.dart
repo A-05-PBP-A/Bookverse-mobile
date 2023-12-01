@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:cakestock/widgets/left_drawer.dart';
-// import 'package:provider/provider.dart';
-// import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'dart:convert';
-// import 'package:cakestock/screens/menu.dart';
-import 'package:bookverse_mobile/widgets/dropdown.dart';
-import 'package:bookverse_mobile/screens/return.dart';
+import 'package:bookverse_mobile/borrowReturn/widgets/dropdown.dart';
+import 'package:bookverse_mobile/borrowReturn/screens/return.dart';
 
 class BookFormPage extends StatefulWidget {
   const BookFormPage({super.key});
@@ -71,8 +66,6 @@ class _BookFormPageState extends State<BookFormPage> {
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Kirim ke Django dan tunggu respons
-                        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                         showDialog(
                             context: context,
                             builder: (context) {
