@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/screens/borrow.dart';
+import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 
 void main() {
   runApp(const MyApp());

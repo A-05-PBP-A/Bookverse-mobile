@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 // import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'dart:convert';
 // import 'package:cakestock/screens/menu.dart';
-import 'package:bookverse_mobile/widgets/dropdown.dart';
-import 'package:bookverse_mobile/screens/return.dart';
+import 'package:bookverse_mobile/borrow_return/widgets/dropdown.dart';
+import 'package:bookverse_mobile/borrow_return/screens/return.dart';
 
 class BookFormPage extends StatefulWidget {
   const BookFormPage({super.key});
