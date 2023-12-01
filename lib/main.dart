@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/screens/landing_page.dart';
+import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 
 void main() {
   runApp(const MyApp());
