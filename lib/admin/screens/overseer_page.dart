@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(ProfileApp());
-}
-
 class ProfileApp extends StatelessWidget {
+  const ProfileApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: ProfilePage(),
     );
   }
 }
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Profile Page'),
+        title: const Text('Admin Profile Page'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
                   Container(
                     width: 120,
                     height: 120,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey,
                     ),
@@ -42,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                     child: Container(
                       width: 60,
                       height: 60,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
@@ -55,7 +55,7 @@ class ProfilePage extends StatelessWidget {
                     child: Container(
                       width: 96,
                       height: 48,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(15),
                           bottomRight: Radius.circular(15),
@@ -66,23 +66,23 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Irvan.Rizqy',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'admin_bv@example.com',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -90,14 +90,14 @@ class ProfilePage extends StatelessWidget {
                     width: 120,
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     height: 400,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _buildInfoBox('Review', '-'),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         _buildInfoBox('Users', ''),
                       ],
                     ),
@@ -115,8 +115,8 @@ class ProfilePage extends StatelessWidget {
   Widget _buildInfoBox(String label, String content) {
     return Container(
       width: 300,
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(8),
@@ -126,108 +126,108 @@ class ProfilePage extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           content == '-'
             ? Table(
-                border: TableBorder.all(color: Color.fromARGB(255, 237, 174, 247)), // Change border color to light purple
+                border: TableBorder.all(color: const Color.fromARGB(255, 237, 174, 247)), // Change border color to light purple
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
                   TableRow(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('Column 1', textAlign: TextAlign.center),
+                        child: const Text('Column 1', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('Column 2', textAlign: TextAlign.center),
+                        child: const Text('Column 2', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('Column 3', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('Column 3', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
                   TableRow(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
                   TableRow(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        child: const Text('-', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        child: const Text('-', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        child: const Text('-', textAlign: TextAlign.center),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        child: const Text('-', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        child: const Text('-', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
@@ -236,7 +236,7 @@ class ProfilePage extends StatelessWidget {
             : Text(
                 content,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
           Text(content),
         ],
@@ -248,8 +248,8 @@ class ProfilePage extends StatelessWidget {
 Widget _buildInfoBoxWithButton(BuildContext context, String label) {
   return Container(
     width: 300,
-    padding: EdgeInsets.all(10),
-    margin: EdgeInsets.symmetric(vertical: 5),
+    padding: const EdgeInsets.all(10),
+    margin: const EdgeInsets.symmetric(vertical: 5),
     decoration: BoxDecoration(
       border: Border.all(color: Colors.grey),
       borderRadius: BorderRadius.circular(8),
@@ -259,11 +259,11 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         ElevatedButton(
             onPressed: () {
               // Navigate to the form input page
@@ -272,7 +272,7 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
                 MaterialPageRoute(builder: (context) => FormInputPage()),
               );
             },
-            child: Text('Add Book'),
+            child: const Text('Add Book'),
           ),
 
       ],
@@ -285,9 +285,9 @@ class FormInputPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form Input Page'),
+        title: const Text('Form Input Page'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('This is the Form Input Page'),
       ),
     );

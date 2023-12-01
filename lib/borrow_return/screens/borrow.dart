@@ -43,20 +43,20 @@ class _BookFormPageState extends State<BookFormPage> {
                           'http://images.amazon.com/images/P/0195153448.01.LZZZZZZZ.jpg',
                           height: 250,
                           width: 200))),
-              Align(
+              const Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 0.0, bottom: 15.0),
                       child: Text('Select the book title of your choice:',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           )))),
-              Align(
+              const Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 0.0, bottom: 15.0),
                       child: DropdownTitle())),
               Align(
@@ -76,7 +76,7 @@ class _BookFormPageState extends State<BookFormPage> {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Terms & Conditions'),
-                                content: SingleChildScrollView(
+                                content: const SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class _BookFormPageState extends State<BookFormPage> {
                                 ),
                                 actions: <Widget>[
                                   TextButton(
-                                    child: Text('Cancel'),
+                                    child: const Text('Cancel'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -113,9 +113,9 @@ class _BookFormPageState extends State<BookFormPage> {
                             });
                       }
                     },
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.all(5.0),
-                      child: const Text('Borrow this book',
+                      child: Text('Borrow this book',
                           style: TextStyle(color: Colors.white, fontSize: 18)),
                     ),
                   ),

@@ -45,7 +45,7 @@ class _BorrowingPageState extends State<BorrowingPage> {
             title: const Text('My Borrowing(s)'),
             actions: [
               Padding(
-                  padding: EdgeInsets.only(right: 16),
+                  padding: const EdgeInsets.only(right: 16),
                   child: IconButton(
                     iconSize: 40,
                     icon: const Icon(Icons.add_circle_outline),
@@ -58,7 +58,7 @@ class _BorrowingPageState extends State<BorrowingPage> {
                   )),
             ]),
         body: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
               horizontal: 16.0), // Atur jarak kiri dan kanan halaman
           child: MyCardList(),
         ));
@@ -79,17 +79,19 @@ class MyCardList extends StatelessWidget {
     'http://images.amazon.com/images/P/0393045218.01.MZZZZZZZ.jpg'
   ];
 
+  MyCardList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 18.0,
           width: 18.0,
         ),
         Expanded(
             child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // Number of cards per row
             crossAxisSpacing: 8.0, // Spacing between cards horizontally
             mainAxisSpacing: 8.0,
