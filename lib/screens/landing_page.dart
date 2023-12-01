@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
-  final List<ShopItem> items = [
-    ShopItem("Lihat Produk", Icons.checklist),
-    ShopItem("Tambah Produk", Icons.add_shopping_cart),
-    ShopItem("Logout", Icons.logout),
+  final List<BookItem> items = [
+    BookItem("Buku 1", "2023", "Publisher 1"),
+    BookItem("Buku 2", "2022", "Publisher 2"),
+    BookItem("Buku 3", "2021", "Publisher 3"),
   ];
 
   @override
@@ -40,8 +40,8 @@ class MyHomePage extends StatelessWidget {
                   mainAxisSpacing: 10,
                   crossAxisCount: 3,
                   shrinkWrap: true,
-                  children: items.map((ShopItem item) {
-                    return ShopCard(item);
+                  children: items.map((BookItem item) {
+                    return BookCard(item);
                   }).toList(),
                 )
               ],
@@ -51,17 +51,22 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ShopItem {
-  final String name;
-  final IconData icon;
+class BookItem {
+  //final
+  final String title;
+  final String yearPublished;
+  final String publisher;
 
-  ShopItem(this.name, this.icon);
+  //final IconData icon;
+
+  //BookItem(this.title, this.icon);
+  BookItem(this.title, this.yearPublished, this.publisher);
 }
 
-class ShopCard extends StatelessWidget {
-  final ShopItem item;
+class BookCard extends StatelessWidget {
+  final BookItem item;
 
-  const ShopCard(this.item, {super.key}); // Constructor
+  const BookCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +79,7 @@ class ShopCard extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!")));
+                content: Text("Kamu telah menekan tombol ${item.title}!")));
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text
@@ -83,14 +88,24 @@ class ShopCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
+                // Icon(
+                //   item.icon,
+                //   color: Colors.white,
+                //   size: 30.0,
+                // ),
+                // const Padding(padding: EdgeInsets.all(3)),
                 Text(
-                  item.name,
+                  item.title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                Text(
+                  item.yearPublished as String,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                Text(
+                  item.publisher,
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white),
                 ),
