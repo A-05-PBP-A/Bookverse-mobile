@@ -231,25 +231,6 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
                 ],
               )
             : Text(
