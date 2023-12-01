@@ -86,12 +86,12 @@ class ProfilePage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 120,
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     height: 400,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -269,7 +269,7 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
               // Navigate to the form input page
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FormInputPage()),
+                MaterialPageRoute(builder: (context) => const FormInputPage()),
               );
             },
             child: const Text('Add Book'),
@@ -281,6 +281,8 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
 }
 
 class FormInputPage extends StatelessWidget {
+  const FormInputPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

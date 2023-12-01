@@ -16,14 +16,14 @@ class _BookPageState extends State<BookPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Judul Buku'),
+        title: const Text('Judul Buku'),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-            Container(
+            SizedBox(
                 height: 500, 
                 child: Center(
                   child: Image.network(
@@ -31,16 +31,16 @@ class _BookPageState extends State<BookPage> {
                   ),
                 ),
               ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Judul Buku', // Ganti dengan judul buku 
               style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               'Penulis Buku', // Ganti dengan nama penulis buku 
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -53,7 +53,7 @@ class _BookPageState extends State<BookPage> {
                       onTap: () {
                         // Redirect ke page review
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Row(
                             children: [
@@ -79,82 +79,82 @@ class _BookPageState extends State<BookPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.favorite_border),
+                  icon: const Icon(Icons.favorite_border),
                   onPressed: () {
                     // Fungsi favorit
                   },
                 ),
               ],
             ),
-            SizedBox(height: 15),
-            Container(
+            const SizedBox(height: 15),
+            SizedBox(
               width: 400,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const BookFormPage()));
                 },
-                child: Text(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black, backgroundColor: Colors.white,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  side: const BorderSide(color: Colors.black),
+                ),
+                child: const Text(
                   'Pinjam',
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.white,
-                  shape: StadiumBorder(),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  side: BorderSide(color: Colors.black),
-                ),
               ),
             ),
-            SizedBox(height: 15),
-            Container(
+            const SizedBox(height: 15),
+            const SizedBox(
               width: 400,
               child: Divider(
                 color: Colors.black,
                 thickness: 0.5,
               ),
             ),
-            SizedBox(height: 15),
-              Text(
+            const SizedBox(height: 15),
+              const Text(
               'Tahun Publikasi:', 
                   style: TextStyle(fontSize: 18),
                 ),
                 
-                Text(
+                const Text(
                   '2023', // Ganti dengan tahun publikasi buku 
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'Penerbit:', 
                   style: TextStyle(fontSize: 18),
                 ),
-                Text(
+                const Text(
                   'Penerbit Buku', // Ganti dengan nama penerbit buku 
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'ISBN:', 
                   style: TextStyle(fontSize: 18),
                 ),
-                Text(
+                const Text(
                   '123-456-789', // Ganti dengan ISBN buku 
                   style: TextStyle(fontSize: 18),
                 ),
-            SizedBox(height: 15),
-            Container(
+            const SizedBox(height: 15),
+            const SizedBox(
               width: 400,
               child: Divider(
                 color: Colors.black,
                 thickness: 0.5,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
+                const Text(
                   'User Review', 
                   style: TextStyle(fontSize: 20),
                 ),
@@ -167,7 +167,7 @@ class _BookPageState extends State<BookPage> {
                       onTap: () {
                         // Redirect ke page review
                       },
-                      child: Column(
+                      child: const Column(
                         children: [
                           Text(
                             'See All >',
