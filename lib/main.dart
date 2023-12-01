@@ -1,4 +1,4 @@
-import 'package:bookverse_mobile/screens/overseer_page.dart';
+import 'package:bookverse_mobile/admin/screens/overseer_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
