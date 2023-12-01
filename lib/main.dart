@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:bookverse_mobile/user_profile/screens/menu.dart';
 import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 
@@ -13,7 +14,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bookverse',
         scaffoldBackgroundColor: Color.fromARGB(255, 222, 222, 255),
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 63, 1, 100)),
