@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/book_profile/screens/profile_book.dart';
 import 'package:flutter/material.dart';
 
 class BookItem {
@@ -28,8 +29,8 @@ class BookCard extends StatelessWidget {
                 SnackBar(content: Text("Kamu memilih buku ${item.title}!")));
 
           // ini ya buat ganti pagenya
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => const ShopFormPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const BookPage()));
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text
