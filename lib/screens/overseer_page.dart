@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bookverse_mobile/screens/book_inputform.dart';
 
 void main() {
   runApp(ProfileApp());
@@ -25,6 +26,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 30),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -34,6 +36,10 @@ class ProfilePage extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 0.5,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -54,7 +60,7 @@ class ProfilePage extends StatelessWidget {
                     left: 12,
                     child: Container(
                       width: 96,
-                      height: 48,
+                      height: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(15),
@@ -68,7 +74,7 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Irvan.Rizqy',
+                'Irvan.Rizqy', //Username
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -76,7 +82,7 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'admin_bv@example.com',
+                'BookVerse Admin Page',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -90,7 +96,7 @@ class ProfilePage extends StatelessWidget {
                     width: 120,
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Container(
                     height: 400,
                     child: Row(
@@ -102,6 +108,7 @@ class ProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(height: 30),
                 ],
               ),
             ],
@@ -114,7 +121,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildInfoBox(String label, String content) {
     return Container(
-      width: 300,
+      width: 450,
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
@@ -265,31 +272,15 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
         ),
         SizedBox(height: 5),
         ElevatedButton(
-            onPressed: () {
-              // Navigate to the form input page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FormInputPage()),
-              );
-            },
-            child: Text('Add Book'),
-          ),
-
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FormInputPage()),
+            );
+          },
+          child: Text('Add Book'),
+        ),
       ],
     ),
   );
-}
-
-class FormInputPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Form Input Page'),
-      ),
-      body: Center(
-        child: Text('This is the Form Input Page'),
-      ),
-    );
-  }
 }
