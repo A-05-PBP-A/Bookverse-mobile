@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/borrowReturn/screens/borrow.dart';
-import 'package:bookverse_mobile/borrowReturn/widgets/searchbar.dart';
+import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
+import 'package:bookverse_mobile/borrow_return/widgets/searchbar.dart';
 
 class BorrowingPage extends StatefulWidget {
   const BorrowingPage({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class MyCardList extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 25.0,
+          height: 18.0,
           width: 18.0,
         ),
         MySearchBar(),
@@ -71,7 +71,7 @@ class MyCardList extends StatelessWidget {
             child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // Number of cards per row
-            crossAxisSpacing: 20.0, // Spacing between cards horizontally
+            crossAxisSpacing: 8.0, // Spacing between cards horizontally
             mainAxisSpacing: 8.0,
           ), // Spacing between cards vertically
           itemCount: items.length,
