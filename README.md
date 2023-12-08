@@ -49,7 +49,7 @@ Modul ini untuk menampilkan daftar buku yang tersedia dalam perpustakaan, para p
 - ✍️ **Review Buku**: User dapat menuliskan review untuk suatu buku yang sudah dia baca.
 
 ## 📖 **Sumber Dataset**
-Berdasarkan hasil diskusi, Sumber dataset katalog buku yang kami pilih untuk mobile app kami adalah dari **Kaggle** karena menggunakan format csv sehingga memudahkan dalam pengolahan dan pertukaran data dan variasi buku yang luas.
+Berdasarkan hasil diskusi, Sumber dataset katalog buku yang kami pilih untuk mobile app kami adalah dari [Kaggle](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset) karena menggunakan format csv sehingga memudahkan dalam pengolahan dan pertukaran data dan variasi buku yang luas.
 
 ## 💻 **Integrasi dengan Situs Web**
 1. Mendefinisikan model yang akan digunakan saat pemanggilan web service, beserta method `toJson()` dan `fromJson()`.

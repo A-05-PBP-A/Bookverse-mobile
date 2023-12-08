@@ -7,13 +7,14 @@ class FormInputPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Book Input Form'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Center(
           child: Container(
             width: 300,
-            height: 620,
+            height: 660,
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
+              color: Colors.blueGrey.shade50,
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
@@ -28,13 +29,13 @@ class FormInputPage extends StatelessWidget {
                 _buildInputField('Image URL-S'),
                 _buildInputField('Image URL-M'),
                 _buildInputField('Image URL-L'),
-                SizedBox(height: 16),
+                SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Handle submit logic
+                        // Handle submit logic (masih harus di integrasi)
                       },
                       child: Text('Submit'),
                     ),

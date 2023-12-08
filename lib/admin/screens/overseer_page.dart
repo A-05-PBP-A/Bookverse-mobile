@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/screens/book_inputform.dart';
+import 'package:bookverse_mobile/admin/screens/book_inputform.dart';
 
 void main() {
   runApp(ProfileApp());
@@ -9,12 +9,12 @@ class ProfileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ProfilePage(),
+      home: AdminPage(),
     );
   }
 }
 
-class ProfilePage extends StatelessWidget {
+class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +38,7 @@ class ProfilePage extends StatelessWidget {
                       color: Colors.grey,
                       border: Border.all(
                         color: Colors.black,
-                        width: 0.5,
+                        width: 2.0,
                       ),
                     ),
                   ),
@@ -85,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                 'BookVerse Admin Page',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 30),
@@ -94,19 +94,23 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Container(
                     width: 120,
+                    color: Colors.purple.shade50,
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    height: 400,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildInfoBox('Review', '-'),
-                        SizedBox(width: 20),
-                        _buildInfoBox('Users', ''),
-                      ],
-                    ),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 20,
+                    children: [
+                      Container(
+                        color: Colors.purple.shade50,
+                        child: _buildInfoBox('Review', '-'),
+                      ),
+                      Container(
+                        color: Colors.purple.shade50,
+                        child: _buildInfoBox('Users', ''),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 30),
                 ],
@@ -125,7 +129,10 @@ class ProfilePage extends StatelessWidget {
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(
+      color: Colors.grey,
+      width: 2.0, // Set the border width to make it thicker
+    ),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -258,7 +265,10 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
     padding: EdgeInsets.all(10),
     margin: EdgeInsets.symmetric(vertical: 5),
     decoration: BoxDecoration(
-      border: Border.all(color: Colors.grey),
+      border: Border.all(
+      color: Colors.grey,
+      width: 2.0, // Set the border width to make it thicker
+    ),
       borderRadius: BorderRadius.circular(8),
     ),
     child: Column(
