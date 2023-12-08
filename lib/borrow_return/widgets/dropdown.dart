@@ -9,8 +9,6 @@ const List<String> list = <String>[
   'The Mummies of Urumchi'
 ];
 
-void main() => runApp(const DropdownMenuApp());
-
 class DropdownMenuApp extends StatelessWidget {
   const DropdownMenuApp({super.key});
 

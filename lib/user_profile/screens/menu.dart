@@ -48,7 +48,7 @@ class UserPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Expanded(
+                    const Expanded(
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: 'Username',
@@ -62,7 +62,7 @@ class UserPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20), // Add space between the first container and the ListTile
+              const SizedBox(height: 20), // Add space between the first container and the ListTile
               
               ListTile(
                 tileColor: Colors.grey[800], // Set background color
@@ -78,7 +78,7 @@ class UserPage extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Books',
                       style: TextStyle(
                         color: Colors.white,
@@ -107,7 +107,7 @@ class UserPage extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Settings',
                       style: TextStyle(
                         color: Colors.white,
@@ -136,7 +136,7 @@ class UserPage extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Logout',
                       style: TextStyle(
                         color: Colors.white,
