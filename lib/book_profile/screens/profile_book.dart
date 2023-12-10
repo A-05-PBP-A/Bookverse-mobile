@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:bookverse_mobile/book_profile/screens/review_page.dart';
+import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +9,14 @@ class BookPage extends StatefulWidget {
     const BookPage({Key? key}) : super(key: key);
 
     @override
-    _BookPageState createState() => _BookPageState();
+    State<BookPage> createState() => _BookPageState();
 }
 
 class _BookPageState extends State<BookPage> {
     Future<List<Book>> fetchBook() async {
       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
       var url = Uri.parse(
-          'http://127.0.0.1:8000/api/7/');
+          'http://127.0.0.1:8000/api/1/');
       var response = await http.get(
           url,
           headers: {"Content-Type": "application/json"},
@@ -32,6 +34,7 @@ class _BookPageState extends State<BookPage> {
   }
   bool _isHovering = false;
   bool _isHoveringSee = false;
+  bool _isFavorite = false;
 
 @override
     Widget build(BuildContext context) {
@@ -83,40 +86,75 @@ class _BookPageState extends State<BookPage> {
                   child: Opacity(
                     opacity: _isHovering ? 0.3 : 1.0,
                     child: InkWell(
-                      onTap: () {
-                        // Redirect ke page review
+                     onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReviewPage(
+                              bookName: snapshot.data![index].fields.title,
+                              imageUrl: snapshot.data![index].fields.imageUrlL, 
+                              bookId: 1,
+                            ),
+                          ),
+                        );
                       },
-                      child: const Column(
+                      child: Column(
                         children: [
                           Row(
+                            children: List.generate(
+                              averageRating.round(), 
+                              (index) => const Icon(Icons.star, color: Colors.orange, size: 22.0),
+                            )
+                            ..addAll(
+                              List.generate(
+                                5 - averageRating.round(), 
+                                (index) => const Icon(Icons.star, color: Colors.grey, size: 22.0),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
                             children: [
-                              Icon(Icons.star, color: Colors.grey, size: 22.0),
-                              SizedBox(width: 5),
-                              Icon(Icons.star, color: Colors.grey, size: 22.0),
-                              SizedBox(width: 5),
-                              Icon(Icons.star, color: Colors.grey, size: 22.0),
-                              SizedBox(width: 5),
-                              Icon(Icons.star, color: Colors.grey, size: 22.0),
-                              SizedBox(width: 5),
-                              Icon(Icons.star, color: Colors.grey, size: 22.0),
+                              TextSpan(
+                                text: averageRating.toStringAsFixed(1),
+                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                              ),
+                              const WidgetSpan(
+                                child: SizedBox(width: 4),
+                              ),
+                              const WidgetSpan(
+                                child: Icon(Icons.star, color: Colors.black, size: 15),
+                              ),
+                              TextSpan(
+                                text: ' | $totalReviews Ratings', 
+                                style: const TextStyle(fontSize: 13),
+                              ),
                             ],
                           ),
-                          SizedBox(height: 5),
-                          Text(
-                            '0 Ratings', // Dummy total reviews
-                            style: TextStyle(fontSize: 13),
-                          ),
+                        ),
                         ],
                       ),
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.favorite_border),
+                  icon: _isFavorite ? const Icon(Icons.favorite, color: Colors.red) : const Icon(Icons.favorite_border),
                   onPressed: () {
-                    // Fungsi favorit
+                    setState(() {
+                      _isFavorite = !_isFavorite;
+                    });
+
+                    if (_isFavorite) {
+                      print('Ditambahkan ke favorit');
+                      // Tambahkan logika ketika difavoritkan
+                    } else {
+                      print('Dihapus dari favorit');
+                      // Tambahkan logika ketika dihapus dari favorit
+                    }
                   },
-                ),
+                )
               ],
             ),
             const SizedBox(height: 15),
@@ -125,6 +163,8 @@ class _BookPageState extends State<BookPage> {
               child: ElevatedButton(
                 onPressed: () {
                   // Redirect ke page pinjam buku
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const BookFormPage()));
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black, backgroundColor: Colors.white,
@@ -197,7 +237,16 @@ class _BookPageState extends State<BookPage> {
                     opacity: _isHoveringSee ? 0.3 : 1.0,
                     child: InkWell(
                       onTap: () {
-                        // Redirect ke page review
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReviewPage(
+                              bookName: snapshot.data![index].fields.title,
+                              imageUrl: snapshot.data![index].fields.imageUrlL, 
+                              bookId: 1,
+                            ),
+                          ),
+                        );
                       },
                       child: const Column(
                         children: [
@@ -218,7 +267,7 @@ class _BookPageState extends State<BookPage> {
            ); 
           }
         }, 
-      ), 
+      ),
     ); 
   }
 }
