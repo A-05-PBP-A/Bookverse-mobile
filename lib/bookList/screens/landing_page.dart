@@ -158,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     // ini ya buat ganti pagenya
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const BookPage()));
+                      MaterialPageRoute(builder: (context) => BookPage(id: snapshot.data![index].pk)));
                   },
                   child: Card(
                     margin: const EdgeInsets.symmetric(

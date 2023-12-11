@@ -6,17 +6,19 @@ import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatefulWidget {
-    const BookPage({Key? key}) : super(key: key);
+  final int id;
 
-    @override
-    State<BookPage> createState() => _BookPageState();
+  const BookPage({Key? key, required this.id}) : super(key: key);
+
+  @override
+  State<BookPage> createState() => _BookPageState();
 }
 
 class _BookPageState extends State<BookPage> {
     Future<List<Book>> fetchBook() async {
       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
       var url = Uri.parse(
-          'http://127.0.0.1:8000/api/1/');
+          'http://127.0.0.1:8000/api/${widget.id}/');
       var response = await http.get(
           url,
           headers: {"Content-Type": "application/json"},
@@ -73,8 +75,8 @@ class _BookPageState extends State<BookPage> {
               textAlign: TextAlign.center,
             ),
             Text(
-              '${snapshot.data![index].fields.author},', 
-              style: const TextStyle(fontSize: 16),
+              '${snapshot.data![index].fields.author}', 
+              style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 15),
             Row(
