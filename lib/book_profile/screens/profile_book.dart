@@ -1,9 +1,15 @@
 import 'dart:convert';
+import 'package:bookverse_mobile/book_profile/models/review.dart';
 import 'package:bookverse_mobile/book_profile/screens/review_page.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
+
+
+int totalRating = 0;
+int totalReviews = 0;
+double averageRating = 0.0;
 
 class BookPage extends StatefulWidget {
   final int id;
@@ -33,7 +39,47 @@ class _BookPageState extends State<BookPage> {
             }
         }
         return books;
-  }
+      }
+
+      Future<List<Review>> fetchReview() async {
+        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+        var url = Uri.parse(
+            'http://127.0.0.1:8000/get_review_json/${widget.id}/');
+        var response = await http.get(
+            url,
+            headers: {"Content-Type": "application/json"},
+        );
+        
+        // melakukan decode response menjadi bentuk json
+        var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+        int tempTotalRating = 0;
+        int tempTotalReviews = 0; 
+        // melakukan konversi data json menjadi object Review
+        List<Review> reviews = [];
+        for (var d in data) {
+          if (d != null) {
+              Review review = Review.fromJson(d);
+              tempTotalRating += review.fields.rating;
+              tempTotalReviews++;
+              reviews.add(review);
+          }
+        }
+
+        // mengupdate variabel global
+        totalRating = tempTotalRating;
+        totalReviews = tempTotalReviews;
+
+        // menghitung rata-rata
+        if (totalReviews > 0) {
+          averageRating = totalRating / totalReviews;
+        } else {
+          averageRating = 0.0; 
+        }
+
+        return [reviews.last];
+      }
+
   bool _isHovering = false;
   bool _isHoveringSee = false;
   bool _isFavorite = false;
@@ -45,7 +91,7 @@ class _BookPageState extends State<BookPage> {
           title: const Text('Detail Buku'),
         ),
         body: FutureBuilder(
-          future: fetchBook(),
+          future: Future.wait([fetchBook(), fetchReview()]), 
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return const Center(child: CircularProgressIndicator());
@@ -55,7 +101,7 @@ class _BookPageState extends State<BookPage> {
               return const Center(child: Text('Tidak ada data buku.'));
             } else {
               return ListView.builder(
-                itemCount: snapshot.data!.length,
+                itemCount: snapshot.data![0].length,
                 itemBuilder: (_, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -64,22 +110,24 @@ class _BookPageState extends State<BookPage> {
                     height: 500, 
                     child: Center(
                       child: Image.network(
-                        "${snapshot.data![index].fields.imageUrlL}", 
+                        "${snapshot.data![0][index].fields.imageUrlL}",
                       ),
                     ),
                   ),
             const SizedBox(height: 20),
             Text(
-              '${snapshot.data![index].fields.title}', 
+              '${snapshot.data![0][index].fields.title}', 
               style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Text(
-              '${snapshot.data![index].fields.author}', 
+              '${snapshot.data![0][index].fields.author}', 
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 15),
-            Row(
+            SizedBox(
+            width: 600,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 MouseRegion(
@@ -93,9 +141,9 @@ class _BookPageState extends State<BookPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ReviewPage(
-                              bookName: snapshot.data![index].fields.title,
-                              imageUrl: snapshot.data![index].fields.imageUrlL, 
-                              bookId: 1,
+                              bookName: snapshot.data![0][index].fields.title,
+                              imageUrl: snapshot.data![0][index].fields.imageUrlL, 
+                              bookId: widget.id,
                             ),
                           ),
                         );
@@ -104,12 +152,12 @@ class _BookPageState extends State<BookPage> {
                         children: [
                           Row(
                             children: List.generate(
-                              averageRating.round(), 
+                              averageRating.round(), // Ubah dengan average ini masih temp
                               (index) => const Icon(Icons.star, color: Colors.orange, size: 22.0),
                             )
                             ..addAll(
                               List.generate(
-                                5 - averageRating.round(), 
+                                5 - averageRating.round(), // Ubah dengan average ini masih temp
                                 (index) => const Icon(Icons.star, color: Colors.grey, size: 22.0),
                               ),
                             ),
@@ -120,7 +168,7 @@ class _BookPageState extends State<BookPage> {
                             style: DefaultTextStyle.of(context).style,
                             children: [
                               TextSpan(
-                                text: averageRating.toStringAsFixed(1),
+                                text: averageRating.toStringAsFixed(1), // Ubah dengan average ini masih temp
                                 style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               const WidgetSpan(
@@ -130,7 +178,7 @@ class _BookPageState extends State<BookPage> {
                                 child: Icon(Icons.star, color: Colors.black, size: 15),
                               ),
                               TextSpan(
-                                text: ' | $totalReviews Ratings', 
+                                text: ' | $totalReviews Ratings', // Ubah ke jumlah rating ini masih temp 
                                 style: const TextStyle(fontSize: 13),
                               ),
                             ],
@@ -158,6 +206,7 @@ class _BookPageState extends State<BookPage> {
                   },
                 )
               ],
+            ),
             ),
             const SizedBox(height: 15),
             SizedBox(
@@ -195,7 +244,7 @@ class _BookPageState extends State<BookPage> {
                 ),
                 
                 Text(
-                  '${snapshot.data![index].fields.publicationYear}', 
+                  '${snapshot.data![0][index].fields.publicationYear}', 
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -204,7 +253,7 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  '${snapshot.data![index].fields.publisher}', 
+                  '${snapshot.data![0][index].fields.publisher}', 
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -213,7 +262,7 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  '${snapshot.data![index].fields.isbn}', 
+                  '${snapshot.data![0][index].fields.isbn}', 
                   style: const TextStyle(fontSize: 18),
                 ),
             const SizedBox(height: 15),
@@ -225,7 +274,9 @@ class _BookPageState extends State<BookPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
+            SizedBox(
+            width: 600,
+            child :Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text(
@@ -243,9 +294,9 @@ class _BookPageState extends State<BookPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ReviewPage(
-                              bookName: snapshot.data![index].fields.title,
-                              imageUrl: snapshot.data![index].fields.imageUrlL, 
-                              bookId: 1,
+                              bookName: snapshot.data![0][index].fields.title,
+                              imageUrl: snapshot.data![0][index].fields.imageUrlL, 
+                              bookId: widget.id,
                             ),
                           ),
                         );
@@ -263,6 +314,87 @@ class _BookPageState extends State<BookPage> {
                         ),
                       ],
                     ),
+                    ),
+                    SizedBox(
+                    width: 450,
+                    child: Card(
+                    elevation: 5,
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 16,
+                    ),
+                    child: ListTile(
+                      title: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: snapshot.data![1][index].fields.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 8),
+                          Row(
+                            children: List.generate(
+                              snapshot.data![1][index].fields.rating,
+                              (index) => const Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                                size: 18,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(snapshot.data![1][index].fields.review),
+                        ],
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(snapshot.data![1][index].fields.name),
+                              content: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    children: List.generate(
+                                      snapshot.data![1][index].fields.rating,
+                                      (index) => const Icon(
+                                        Icons.star,
+                                        color: Colors.orange,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(snapshot.data![1][index].fields.review),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Tutup'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      )
+                    )
                   ], 
                 ), 
               )
