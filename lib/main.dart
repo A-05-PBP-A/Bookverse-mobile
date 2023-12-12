@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/auth/screens/login.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:bookverse_mobile/borrow_return/screens/return.dart';
 import 'package:bookverse_mobile/user_profile/screens/menu.dart';
@@ -26,7 +27,11 @@ class MyApp extends StatelessWidget {
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
                     useMaterial3: true,
                 ),
-                home: const MyNavBar()),
+                 home: const LoginPage(),
+                routes: {
+                      "/login": (BuildContext context) => const LoginPage(),
+                  },
+                ),
             );
     }
 }

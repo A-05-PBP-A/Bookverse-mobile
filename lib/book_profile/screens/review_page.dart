@@ -1,4 +1,5 @@
 import 'package:bookverse_mobile/book_profile/models/review.dart';
+import 'package:bookverse_mobile/book_profile/screens/profile_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -185,6 +186,10 @@ Widget build(BuildContext context) {
                                           .showSnackBar(const SnackBar(
                                       content: Text("Review berhasil dibuat!"),
                                       ));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId,)),
+                                      );
                                   } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
