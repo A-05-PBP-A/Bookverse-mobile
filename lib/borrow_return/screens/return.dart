@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:bookverse_mobile/borrow_return/widgets/searchbar.dart';
+import 'package:bookverse_mobile/user_profile/models/books_history_models.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 // import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -14,52 +15,35 @@ class BorrowingPage extends StatefulWidget {
 }
 
 class _BorrowingPageState extends State<BorrowingPage> {
-  // Future<List<Item>> fetchProduct() async {
-  //   var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/books/');
-  //   var response = await http.get(
-  //     url,
-  //     headers: {"Content-Type": "application/json"},
-  //   );
-
-  //   // melakukan decode response menjadi bentuk json
-  //   var data = jsonDecode(utf8.decode(response.bodyBytes));
-
-  //   // melakukan konversi data json menjadi object Product
-  //   List<Item> list_product = [];
-  //   for (var d in data) {
-  //     if (d != null) {
-  //       list_product.add(Item.fromJson(d));
-  //     }
-  //   }
-  //   return list_product;
-  // }
-
   @override
   Widget build(BuildContext context) {
-    //final request = context.watch<CookieRequest>();
     return Scaffold(
-        appBar: AppBar(title: const Text('My Borrowing(s)'), actions: [
+      appBar: AppBar(
+        title: const Text('My Borrowing(s)'),
+        actions: [
           Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: IconButton(
-                iconSize: 40,
-                icon: const Icon(Icons.add_circle_outline),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BookFormPage()),
-                  );
-                },
-              )),
-        ]),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16.0), // Atur jarak kiri dan kanan halaman
-          child: MyCardList(),
-        ));
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              iconSize: 40,
+              icon: const Icon(Icons.add_circle_outline),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BookFormPage()),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: MyCardList(),
+      ),
+    );
   }
 }
+
 
 class MyCardList extends StatelessWidget {
   final List<String> items = [
@@ -75,7 +59,7 @@ class MyCardList extends StatelessWidget {
     'http://images.amazon.com/images/P/0393045218.01.MZZZZZZZ.jpg'
   ];
 
-  MyCardList({super.key});
+  MyCardList({super.key}); 
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +145,8 @@ class MyCardList extends StatelessWidget {
                                       child: const Text('Yes'),
                                       onPressed: () {
                                         Navigator.pop(context);
+                                        //Send data to Readed Books when return
+                                        BooksHistoryModel.returnBooks(items[index], covers[index]);
                                       },
                                     ),
                                   ],
