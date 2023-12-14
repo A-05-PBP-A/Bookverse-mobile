@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:bookverse_mobile/user_profile/screens/readed_books.dart';
+import 'package:bookverse_mobile/user_profile/screens/favorite_books.dart';
 
 class UserPage extends StatelessWidget {
   UserPage({Key? key}) : super(key: key);
   final List<Functionality> functions = [
-    Functionality("Books", Icons.checklist),
+    Functionality("Readed Books", Image.asset(
+      'assets/images/bookLogo.png',
+      width: 30,
+      height: 30,
+    )),
+    Functionality("Favorites Books", Icons.book),
+    Functionality("Settings", Icons.settings),
+  ];
+
+  final List<Functionality> bottomFunctions = [
     Functionality("Logout", Icons.logout),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,94 +74,15 @@ class UserPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20), // Add space between the first container and the ListTile
-              
-              ListTile(
-                tileColor: Colors.grey[800], // Set background color
-                contentPadding: const EdgeInsets.all(10),
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Image.asset('assets/images/bookLogo.png'),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Books',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Image.asset(
-                      'assets/images/greaterThanLogo.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 20), // Add space between the first container and the function
 
-              ListTile(
-                tileColor: Colors.grey[800], // Set background color
-                contentPadding: const EdgeInsets.all(10),
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Image.asset('assets/images/settingsLogo.png'),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Settings',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Image.asset(
-                      'assets/images/greaterThanLogo.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
+              //spread (...) operator to include the lists in the Column widget
+              ...functions.map((function) => FunctionCard(function)).toList(),
 
-              ListTile(
-                tileColor: Colors.grey[800], // Set background color
-                contentPadding: const EdgeInsets.all(10),
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Image.asset('assets/images/logoutLogo.png'),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Logout',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Image.asset(
-                      'assets/images/greaterThanLogo.png',
-                      width: 20,
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
+              const Divider(),
+
+              // Bottom functionalities
+              ...bottomFunctions.map((function) => FunctionCard(function)).toList(),
             ],
           ),
         ),
@@ -159,46 +92,53 @@ class UserPage extends StatelessWidget {
 }
 
 
-
-
 class FunctionCard extends StatelessWidget {
   final Functionality function;
 
-  const FunctionCard(this.function, {super.key}); // Constructor
+  const FunctionCard(this.function, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey,
+      color: Colors.grey[800], // Background color of button/card
       child: InkWell(
-        // Area responsive terhadap sentuhan
         onTap: () {
-          // Memunculkan SnackBar ketika diklik
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${function.name}!")));
+          if (function.name == "Readed Books") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ReadedBooks()),
+            );
+          } else if (function.name == "Favorites Books") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FavoriteBooks()),
+            );
+          } else if (function.name == "Settings") {
+            // Navigate to Settings page
+          } else if (function.name == "Logout") {
+            // Navigate to Logout page
+          }
         },
         child: Container(
-          // Container untuk menyimpan Icon dan Text
           padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              if (function.icon is Image)
+                function.icon
+              else
                 Icon(
                   function.icon,
                   color: Colors.white,
                   size: 30.0,
                 ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  function.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
+              const Padding(padding: EdgeInsets.all(8)),
+              Text(
+                function.name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
           ),
         ),
       ),
@@ -208,7 +148,7 @@ class FunctionCard extends StatelessWidget {
 
 class Functionality {
   final String name;
-  final IconData icon;
+  final dynamic icon; //Pakai dynamic agar bisa image atau icon bawaan
 
   Functionality(this.name, this.icon);
 }

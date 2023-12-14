@@ -1,8 +1,8 @@
 import 'package:bookverse_mobile/auth/screens/login.dart';
+import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:bookverse_mobile/borrow_return/screens/return.dart';
 import 'package:bookverse_mobile/user_profile/screens/menu.dart';
-import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
                 ),
             );
     }
-}
 
 class MyNavBar extends StatefulWidget {
   const MyNavBar({super.key});
