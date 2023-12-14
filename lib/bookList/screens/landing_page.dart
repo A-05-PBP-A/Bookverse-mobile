@@ -1,122 +1,196 @@
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+// import 'package:bookverse_mobile/book_profile/models/book.dart';
+//
+// class MyHomePage extends StatefulWidget {
+//     const MyHomePage({Key? key}) : super(key: key);
+//
+//     @override
+//     _MyHomePageState createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+// Future<List<Book>> fetchProduct() async {
+//     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+//     var url = Uri.parse(
+//         'http://127.0.0.1:8000/get-books/');
+//     var response = await http.get(
+//         url,
+//         headers: {"Content-Type": "application/json"},
+//     );
+//
+//     // melakukan decode response menjadi bentuk json
+//     var data = jsonDecode(utf8.decode(response.bodyBytes));
+//
+//     // melakukan konversi data json menjadi object Product
+//     List<Book> list_product = [];
+//     for (var d in data) {
+//         if (d != null) {
+//             list_product.add(Book.fromJson(d));
+//         }
+//     }
+//     return list_product;
+// }
+//
+// @override
+// Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//         title: const Text('Library'),
+//         ),
+//         //drawer: const LeftDrawer(),
+//         body: FutureBuilder(
+//             future: fetchProduct(),
+//             builder: (context, AsyncSnapshot snapshot) {
+//                 if (snapshot.data == null) {
+//                     return const Center(child: CircularProgressIndicator());
+//                 } else {
+//                     if (!snapshot.hasData) {
+//                     return const Column(
+//                         children: [
+//                         Text(
+//                             "Tidak ada data produk.",
+//                             style:
+//                                 TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+//                         ),
+//                         SizedBox(height: 8),
+//                         ],
+//                     );
+//                 } else {
+//                     return ListView.builder(
+//                         itemCount: snapshot.data!.length,
+//                         itemBuilder: (_, index) => Container(
+//                                 margin: const EdgeInsets.symmetric(
+//                                     horizontal: 16, vertical: 12),
+//                                 padding: const EdgeInsets.all(20.0),
+//                                 child: Column(
+//                                 mainAxisAlignment: MainAxisAlignment.start,
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                     Text(
+//                                     "${snapshot.data![index].fields.title}",
+//                                     style: const TextStyle(
+//                                         fontSize: 18.0,
+//                                         fontWeight: FontWeight.bold,
+//                                     ),
+//                                     ),
+//                                     const SizedBox(height: 10),
+//                                     Text("${snapshot.data![index].fields.author}"),
+//                                     const SizedBox(height: 10),
+//                                     Text(
+//                                         "${snapshot.data![index].fields.publicationYear}")
+//                                 ],
+//                                 ),
+//                             ));
+//                     }
+//                 }
+//             }));
+//     }
+// }
+
+import 'package:bookverse_mobile/book_profile/screens/profile_book.dart';
 import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/bookList/widgets/book_card.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:bookverse_mobile/book_profile/models/book.dart';
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
-  final List<BookItem> items = [
-    BookItem("Buku 1", "2023", "Publisher 1"),
-    BookItem("Buku 2", "2022", "Publisher 2"),
-    BookItem("Buku 3", "2021", "Publisher 3"),
-    BookItem("Buku 4", "2020", "Publisher 4"),
-  ];
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  Future<List<Book>> fetchProduct() async {
+    var url = Uri.parse('http://127.0.0.1:8000/get-books/');
+    var response = await http.get(
+      url,
+      headers: {"Content-Type": "application/json"},
+    );
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+    List<Book> list_product = [];
+    for (var d in data) {
+      if (d != null) {
+        list_product.add(Book.fromJson(d));
+      }
+    }
+    return list_product;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Bookverse Mobile',
-        ),
+        title: const Text('Library'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    'Home',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+      body: FutureBuilder(
+        future: fetchProduct(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            if (!snapshot.hasData) {
+              return const Column(
+                children: [
+                  Text(
+                    "Tidak ada data produk.",
+                    style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                  ),
+                  SizedBox(height: 8),
+                ],
+              );
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) => GestureDetector(
+                  onTap: () async {
+                    // Handle card click event here
+                    // You can navigate to a new screen or perform any action
+                    // print('Card Clicked!');
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(content: Text("Kamu memilih buku ${snapshot.data![index].fields.title}!")));
+
+                    // ini ya buat ganti pagenya
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => BookPage(id: snapshot.data![index].pk)));
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${snapshot.data![index].fields.title}",
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text("${snapshot.data![index].fields.author}"),
+                          const SizedBox(height: 10),
+                          Text(
+                              "${snapshot.data![index].fields.publicationYear}")
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                GridView.count(
-                  primary: true,
-                  padding: const EdgeInsets.all(20),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  children: items.map((BookItem item) {
-                    return BookCard(item);
-                  }).toList(),
-                )
-              ],
-            )),
+              );
+            }
+          }
+        },
       ),
     );
   }
 }
-
-// class BookItem {
-//   //final
-//   final String title;
-//   final String yearPublished;
-//   final String publisher;
-
-//   //final IconData icon;
-
-//   //BookItem(this.title, this.icon);
-//   BookItem(this.title, this.yearPublished, this.publisher);
-// }
-
-// class BookCard extends StatelessWidget {
-//   final BookItem item;
-
-//   const BookCard(this.item, {super.key}); // Constructor
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Material(
-  //     color: Colors.indigo,
-  //     child: InkWell(
-  //       // Area responsive terhadap sentuhan
-  //       onTap: () {
-  //         // Memunculkan SnackBar ketika diklik
-  //         ScaffoldMessenger.of(context)
-  //           ..hideCurrentSnackBar()
-  //           ..showSnackBar(SnackBar(
-  //               content: Text("Kamu telah menekan tombol ${item.title}!")));
-  //       },
-  //       child: Container(
-  //         // Container untuk menyimpan Icon dan Text
-  //         padding: const EdgeInsets.all(8),
-  //         child: Center(
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: [
-  //               // Icon(
-  //               //   item.icon,
-  //               //   color: Colors.white,
-  //               //   size: 30.0,
-  //               // ),
-  //               // const Padding(padding: EdgeInsets.all(3)),
-  //               Text(
-  //                 item.title,
-  //                 textAlign: TextAlign.center,
-  //                 style: const TextStyle(color: Colors.white),
-  //               ),
-  //               const Padding(padding: EdgeInsets.all(3)),
-  //               Text(
-  //                 item.yearPublished as String,
-  //                 textAlign: TextAlign.center,
-  //                 style: const TextStyle(color: Colors.white),
-  //               ),
-  //               const Padding(padding: EdgeInsets.all(3)),
-  //               Text(
-  //                 item.publisher,
-  //                 textAlign: TextAlign.center,
-  //                 style: const TextStyle(color: Colors.white),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
