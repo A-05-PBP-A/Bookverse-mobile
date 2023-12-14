@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
                 ),
             );
     }
+}
 
 class MyNavBar extends StatefulWidget {
   const MyNavBar({super.key});
