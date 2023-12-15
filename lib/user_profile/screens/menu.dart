@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/screens/readed_books.dart';
 import 'package:bookverse_mobile/user_profile/screens/favorite_books.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/auth/screens/login.dart';
 
 class UserPage extends StatelessWidget {
   UserPage({Key? key}) : super(key: key);
@@ -99,10 +102,11 @@ class FunctionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: Colors.grey[800], // Background color of button/card
       child: InkWell(
-        onTap: () {
+        onTap: () async{
           if (function.name == "Readed Books") {
             Navigator.push(
               context,
@@ -116,7 +120,24 @@ class FunctionCard extends StatelessWidget {
           } else if (function.name == "Settings") {
             // Navigate to Settings page
           } else if (function.name == "Logout") {
-            // Navigate to Logout page
+            final response = await request.logout(
+            // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                "http://127.0.0.1:8000/logout_flutter/");
+            String message = response["message"];
+            if (response['status']) {
+              String uname = response["username"];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message Sampai jumpa, $uname."),
+              ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message"),
+              ));
+            }
           }
         },
         child: Container(
