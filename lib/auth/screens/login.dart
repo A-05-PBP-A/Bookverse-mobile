@@ -27,16 +27,7 @@ class LoginPage extends StatefulWidget {
     const LoginPage({super.key});
 
     @override
-    _LoginPageState createState() => _LoginPageState();
-}
-
-User? loggedInUser;
-
-class User {
-  final String username;
-  final int id;
-
-  User(this.username, this.id);
+    State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -84,12 +75,10 @@ class _LoginPageState extends State<LoginPage> {
 
                                 if (request.loggedIn) {
                                     String message = response['message'];
-                                    int id = response['id'];
                                     String uname = response['username'];
-                                    loggedInUser = User(uname, id);
                                     Navigator.pushReplacement(
                                         context,
-                                        MaterialPageRoute(builder: (context) => MyNavBar()),
+                                        MaterialPageRoute(builder: (context) => const MyNavBar()),
                                     );
                                     ScaffoldMessenger.of(context)
                                         ..hideCurrentSnackBar()

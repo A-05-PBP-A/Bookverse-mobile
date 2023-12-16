@@ -357,7 +357,7 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 String _search = "";
@@ -422,11 +422,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 future: fetchProduct(),
                 builder: (context, AsyncSnapshot<List<Book>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || _filteredBooks.isEmpty) {
-                    return Column(
+                    return const Column(
                       children: [
                         Text(
                           "Tidak ada data buku.",
@@ -440,7 +440,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 16.0,
                         mainAxisSpacing: 12.0,
@@ -468,7 +468,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Card(
-                            margin: EdgeInsets.all(0),
+                            margin: const EdgeInsets.all(0),
                             child: SizedBox(
                               width: double.infinity,
                               height: double.infinity,
@@ -481,7 +481,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       CrossAxisAlignment.center,
                                   children: [
                                     Image.network(
-                                      "${_filteredBooks[index].fields.imageUrlM}",
+                                      _filteredBooks[index].fields.imageUrlM,
                                       height: 100,
                                       width: 100,
                                       fit: BoxFit.cover,
@@ -498,7 +498,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: "\n",
                                           ),
                                         ],
@@ -508,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      "${_filteredBooks[index].fields.author}",
+                                      _filteredBooks[index].fields.author,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),

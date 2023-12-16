@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class FormInputPage extends StatelessWidget {
+  const FormInputPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Input Form'),
+        title: const Text('Book Input Form'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -29,7 +31,7 @@ class FormInputPage extends StatelessWidget {
                 _buildInputField('Image URL-S'),
                 _buildInputField('Image URL-M'),
                 _buildInputField('Image URL-L'),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -37,13 +39,13 @@ class FormInputPage extends StatelessWidget {
                       onPressed: () {
                         // Handle submit logic (masih harus di integrasi)
                       },
-                      child: Text('Submit'),
+                      child: const Text('Submit'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Go back'),
+                      child: const Text('Go back'),
                     ),
                   ],
                 ),
@@ -61,7 +63,7 @@ class FormInputPage extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
           labelText: labelText,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
       ),
     );
