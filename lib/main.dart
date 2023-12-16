@@ -46,7 +46,7 @@ class MyNavBar extends StatefulWidget {
 class _MyNavBarState extends State<MyNavBar> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    MyHomePage(),
+    const MyHomePage(),
     const BookFormPage(),
     const BorrowingPage(),
     UserPage(),
