@@ -15,7 +15,7 @@ class ReadedBooks extends StatefulWidget {
   const ReadedBooks({super.key});
 
   @override
-  _ReadedBooksState createState() => _ReadedBooksState();
+  State<ReadedBooks> createState() => _ReadedBooksState();
 }
 
 class _ReadedBooksState extends State<ReadedBooks> {
@@ -37,11 +37,11 @@ class _ReadedBooksState extends State<ReadedBooks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Readed Books'),
+        title: const Text('Readed Books'),
       ),
       body: Center(
         child: BooksHistoryModel.getReturnedBooks().isEmpty
-            ? Text('No books you have borrowed yet')
+            ? const Text('No books you have borrowed yet')
             : ListView.builder(
                 itemCount: BooksHistoryModel.getReturnedBooks().length,
                 itemBuilder: (context, index) {
@@ -61,14 +61,14 @@ class BooksHistoryCard extends StatefulWidget {
   final String bookCover;
   final VoidCallback? onRemove;
 
-  BooksHistoryCard({
+  const BooksHistoryCard({super.key, 
     required this.bookTitle,
     required this.bookCover,
     this.onRemove,
   });
 
   @override
-  _BooksHistoryCardState createState() => _BooksHistoryCardState();
+  State<BooksHistoryCard> createState() => _BooksHistoryCardState();
 }
 
 class _BooksHistoryCardState extends State<BooksHistoryCard> {
