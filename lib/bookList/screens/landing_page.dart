@@ -422,11 +422,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 future: fetchProduct(),
                 builder: (context, AsyncSnapshot<List<Book>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || _filteredBooks.isEmpty) {
-                    return Column(
+                    return const Column(
                       children: [
                         Text(
                           "Tidak ada data buku.",
@@ -441,6 +441,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: MediaQuery.of(context).size.width /
+              (MediaQuery.of(context).size.height),
                         crossAxisCount: 2,
                         crossAxisSpacing: 16.0,
                         mainAxisSpacing: 12.0,
@@ -465,13 +467,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Card(
-                            margin: EdgeInsets.all(0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: double.infinity,
+                        // child: Padding(
+                        //   padding: const EdgeInsets.all(4.0),
+                          child: Container(
+                            // width: 150, // Adjust the width as needed
+                            // height: 300, // Adjust the height as needed
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
+                              border: Border.all(
+                                color: Colors.grey, // Add border color if needed
+                                width: 1.0, // Add border width if needed
+                              ),
+                            ),
                               child: Padding(
                                 padding: const EdgeInsets.all(14.0),
                                 child: Column(
@@ -482,8 +489,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     Image.network(
                                       "${_filteredBooks[index].fields.imageUrlM}",
-                                      height: 100,
-                                      width: 100,
+                                      height: 210,
+                                      width: 140,
                                       fit: BoxFit.cover,
                                     ),
                                     const SizedBox(height: 6),
@@ -498,7 +505,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: "\n",
                                           ),
                                         ],
@@ -523,9 +530,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
+                      // ),
+          );
                   }
                 },
               ),
