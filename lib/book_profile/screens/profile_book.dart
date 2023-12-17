@@ -5,6 +5,10 @@ import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/user_profile/models/favorite_books_models.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 
 int totalRating = 0;
@@ -94,12 +98,55 @@ class _BookPageState extends State<BookPage> {
         setState(() {});
       }
 
+      Future<void> fetchFavBook(username) async {
+      // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+      var url = Uri.parse(
+          'http://127.0.0.1:8000/book_favorite_flutter/$username/');
+      var response = await http.get(
+          url,
+          headers: {"Content-Type": "application/json"},
+      );
+      
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+        for (var d in data) {
+            if (d != null) {
+                listFavBook.add(FavBook.fromJson(d));
+            }
+        }
+    }
+
+    //cek apakah buku sudah di favorite atau belum
+    bool isBookFav(List<FavBook> listFavBook, String bookTitle) {
+      return listFavBook.any((book) => book.fields.bookTitle == bookTitle);
+    }
+
+    Future<void> deleteFavBook(int bookId) async {
+      final url = 'http://127.0.0.1:8000/delete_bookFav/$bookId/';
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        print('Book deleted successfully');
+        setState(() {});
+      } else {
+        print('Failed to delete book');
+      }
+    }
+
+
   bool _isHovering = false;
   bool _isHoveringSee = false;
-  bool _isFavorite = false;
+  List<FavBook> listFavBook = []; //list buku favorit
 
 @override
     Widget build(BuildContext context) {
+      final request = context.watch<CookieRequest>();
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      fetchFavBook(userProvider.username);
+
       return Scaffold(
         appBar: AppBar(
           title: const Text('Detail Buku'),
@@ -204,20 +251,44 @@ class _BookPageState extends State<BookPage> {
                   ),
                 ),
                 IconButton(
-                  icon: _isFavorite ? const Icon(Icons.favorite, color: Colors.red) : const Icon(Icons.favorite_border),
-                  onPressed: () {
-                    setState(() {
-                      _isFavorite = !_isFavorite;
-                    });
+                  
+                  icon: isBookFav(listFavBook, snapshot.data![index].fields.title)
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_border),
+                  onPressed: () async {
+                    //add ke favorites
+                    if (isBookFav(listFavBook, snapshot.data![index].fields.title) == false){
+                      try {
+                        final response = await request.postJson(
+                          "http://127.0.0.1:8000/favorite-flutter/",
+                          jsonEncode(<String, int>{
+                            'bookId': widget.id,
+                          }),
+                        );
 
-                    if (_isFavorite) {
-                      print('Ditambahkan ke favorit');
-                      // Tambahkan logika ketika difavoritkan
-                      snapshot.data![0][index];
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Added To Favorites"),
+                            ),
+                          );
+                        } else {
+                          print('Failed to add to favorites. Status code: ${response.statusCode}');
+                          // Handle the error accordingly.
+                        }
+                      } catch (error) {
+                        print('Error: $error');
+                        // Handle network or other errors.
+                      }
+                    }
 
-                    } else {
-                      print('Dihapus dari favorit');
-                      // Tambahkan logika ketika dihapus dari favorit
+                    //remove dari favorites
+                    else{
+                      await deleteFavBook(snapshot.data![index].pk);
+                      // reload the page by calling setState
+                      setState(() {
+                        listFavBook.removeWhere((book) => book.fields.bookTitle == snapshot.data![index].fields.title);
+                      });
                     }
                   },
                 )

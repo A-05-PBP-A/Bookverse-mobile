@@ -79,7 +79,7 @@ class _BooksHistoryCardState extends State<BooksHistoryCard> {
   void initState() {
     super.initState();
     // Initialize the isFavorite variable based on the current state
-    isFavorite = FavoritesBooksModels.isBookInFavorites(widget.bookTitle);
+    //isFavorite = FavoritesBooksModels.isBookInFavorites(widget.bookTitle);
   }
 
   @override
@@ -119,8 +119,8 @@ class _BooksHistoryCardState extends State<BooksHistoryCard> {
                         widget.onRemove?.call();
                       } else {
                         // Add to favorites
-                        FavoritesBooksModels.addToFavorites(
-                            widget.bookTitle, widget.bookCover);
+                        //FavoritesBooksModels.addToFavorites(
+                            //widget.bookTitle, widget.bookCover);
                       }
                       // Toggle the isFavorite state
                       isFavorite = !isFavorite;
