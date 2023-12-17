@@ -69,8 +69,8 @@ class MyCardList extends StatelessWidget {
           height: 18.0,
           width: 18.0,
         ),
-        MySearchBar(),
-        SizedBox(
+        const MySearchBar(),
+        const SizedBox(
           height: 25.0,
           width: 18.0,
         ),
@@ -107,7 +107,7 @@ class MyCardList extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: Text(
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                           items[index],
                           textAlign: TextAlign.center,
@@ -124,7 +124,7 @@ class MyCardList extends StatelessWidget {
                               builder: (context) {
                                 return AlertDialog(
                                   title: const Text('Return Book'),
-                                  content: SingleChildScrollView(
+                                  content: const SingleChildScrollView(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -136,7 +136,7 @@ class MyCardList extends StatelessWidget {
                                   ),
                                   actions: [
                                     TextButton(
-                                      child: Text('Cancel'),
+                                      child: const Text('Cancel'),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -152,9 +152,9 @@ class MyCardList extends StatelessWidget {
                                   ],
                                 );
                               }),
-                          child: Padding(
+                          child: const Padding(
                             padding: EdgeInsets.all(1.0),
-                            child: const Text('Return',
+                            child: Text('Return',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 14)),
                           ),

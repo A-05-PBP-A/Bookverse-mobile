@@ -132,12 +132,12 @@ class FunctionCard extends StatelessWidget {
           if (function.name == "Readed Books") {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ReadedBooks()),
+              MaterialPageRoute(builder: (context) => const ReadedBooks()),
             );
           } else if (function.name == "Favorites Books") {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FavoriteBooks()),
+              MaterialPageRoute(builder: (context) => const FavoriteBooks()),
             );
           } else if (function.name == "Settings") {
             // Navigate to Settings page

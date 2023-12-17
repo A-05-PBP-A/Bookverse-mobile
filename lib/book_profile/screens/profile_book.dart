@@ -53,31 +53,45 @@ class _BookPageState extends State<BookPage> {
         // melakukan decode response menjadi bentuk json
         var data = jsonDecode(utf8.decode(response.bodyBytes));
 
-        int tempTotalRating = 0;
-        int tempTotalReviews = 0; 
         // melakukan konversi data json menjadi object Review
         List<Review> reviews = [];
         for (var d in data) {
           if (d != null) {
               Review review = Review.fromJson(d);
-              tempTotalRating += review.fields.rating;
-              tempTotalReviews++;
               reviews.add(review);
           }
         }
 
-        // mengupdate variabel global
+        updateReviewData(reviews);
+
+        reviews = reviews.length > 3 ? reviews.sublist(reviews.length - 3) : reviews;
+
+        return reviews;
+      }
+
+      void updateReviewData(List<Review> reviews) {
+        int tempTotalRating = 0;
+        int tempTotalReviews = 0;
+
+        // Menghitung total rating dan total reviews
+        for (var review in reviews) {
+          tempTotalRating += review.fields.rating;
+          tempTotalReviews++;
+        }
+
+        // Mengupdate variabel global
         totalRating = tempTotalRating;
         totalReviews = tempTotalReviews;
 
-        // menghitung rata-rata
+        // Menghitung rata-rata
         if (totalReviews > 0) {
           averageRating = totalRating / totalReviews;
         } else {
-          averageRating = 0.0; 
+          averageRating = 0.0;
         }
 
-        return [reviews.last];
+        // Memanggil setState untuk memperbarui UI
+        setState(() {});
       }
 
   bool _isHovering = false;
@@ -91,7 +105,7 @@ class _BookPageState extends State<BookPage> {
           title: const Text('Detail Buku'),
         ),
         body: FutureBuilder(
-          future: Future.wait([fetchBook(), fetchReview()]), 
+          future: fetchBook(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return const Center(child: CircularProgressIndicator());
@@ -101,7 +115,7 @@ class _BookPageState extends State<BookPage> {
               return const Center(child: Text('Tidak ada data buku.'));
             } else {
               return ListView.builder(
-                itemCount: snapshot.data![0].length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -110,18 +124,18 @@ class _BookPageState extends State<BookPage> {
                     height: 500, 
                     child: Center(
                       child: Image.network(
-                        "${snapshot.data![0][index].fields.imageUrlL}",
+                        "${snapshot.data![index].fields.imageUrlL}",
                       ),
                     ),
                   ),
             const SizedBox(height: 20),
             Text(
-              '${snapshot.data![0][index].fields.title}', 
+              '${snapshot.data![index].fields.title}', 
               style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Text(
-              '${snapshot.data![0][index].fields.author}', 
+              '${snapshot.data![index].fields.author}', 
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 15),
@@ -141,8 +155,8 @@ class _BookPageState extends State<BookPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ReviewPage(
-                              bookName: snapshot.data![0][index].fields.title,
-                              imageUrl: snapshot.data![0][index].fields.imageUrlL, 
+                              bookName: snapshot.data![index].fields.title,
+                              imageUrl: snapshot.data![index].fields.imageUrlL, 
                               bookId: widget.id,
                             ),
                           ),
@@ -246,7 +260,7 @@ class _BookPageState extends State<BookPage> {
                 ),
                 
                 Text(
-                  '${snapshot.data![0][index].fields.publicationYear}', 
+                  '${snapshot.data![index].fields.publicationYear}', 
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -255,7 +269,7 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  '${snapshot.data![0][index].fields.publisher}', 
+                  '${snapshot.data![index].fields.publisher}', 
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -264,7 +278,7 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  '${snapshot.data![0][index].fields.isbn}', 
+                  '${snapshot.data![index].fields.isbn}', 
                   style: const TextStyle(fontSize: 18),
                 ),
             const SizedBox(height: 15),
@@ -296,8 +310,8 @@ class _BookPageState extends State<BookPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ReviewPage(
-                              bookName: snapshot.data![0][index].fields.title,
-                              imageUrl: snapshot.data![0][index].fields.imageUrlL, 
+                              bookName: snapshot.data![index].fields.title,
+                              imageUrl: snapshot.data![index].fields.imageUrlL, 
                               bookId: widget.id,
                             ),
                           ),
@@ -317,90 +331,128 @@ class _BookPageState extends State<BookPage> {
                       ],
                     ),
                     ),
-                    SizedBox(
-                    width: 450,
-                    child: Card(
-                    elevation: 5,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 16,
-                    ),
-                    child: ListTile(
-                      title: RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: snapshot.data![1][index].fields.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                    FutureBuilder(
+                    future: fetchReview(),
+                    builder: (context, AsyncSnapshot<List<Review>> snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        if (snapshot.data == null || snapshot.data!.isEmpty) {
+                          return const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 8),
+                                Text(
+                                  "Tidak ada review.",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 0, 0),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Silakan tambahkan review untuk buku ini.",
+                                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Row(
-                            children: List.generate(
-                              snapshot.data![1][index].fields.rating,
-                              (index) => const Icon(
-                                Icons.star,
-                                color: Colors.orange,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(snapshot.data![1][index].fields.review),
-                        ],
-                      ),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(snapshot.data![1][index].fields.name),
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    children: List.generate(
-                                      snapshot.data![1][index].fields.rating,
-                                      (index) => const Icon(
-                                        Icons.star,
-                                        color: Colors.orange,
-                                        size: 18,
-                                      ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                elevation: 5,
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 16,
+                                ),
+                                child: ListTile(
+                                  title: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: snapshot.data![index].fields.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  Text(snapshot.data![1][index].fields.review),
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Tutup'),
-                                    ),
-                                  ],
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: List.generate(
+                                          snapshot.data![index].fields.rating,
+                                          (index) => const Icon(
+                                            Icons.star,
+                                            color: Colors.orange,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(snapshot.data![index].fields.review),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(snapshot.data![index].fields.name),
+                                          content: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: List.generate(
+                                                  snapshot.data![index].fields.rating,
+                                                  (index) => const Icon(
+                                                    Icons.star,
+                                                    color: Colors.orange,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(snapshot.data![index].fields.review),
+                                            ],
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Tutup'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                 );
                               },
                             );
-                          },
-                        ),
-                      )
+                          }
+                        }
+                      }
                     )
                   ], 
                 ), 
               )
-           ); 
+            ); 
           }
         }, 
       ),

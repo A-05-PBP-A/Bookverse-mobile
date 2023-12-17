@@ -5,7 +5,7 @@ class FavoriteBooks extends StatefulWidget {
   const FavoriteBooks({super.key});
 
   @override
-  _FavoriteBooksState createState() => _FavoriteBooksState();
+  State<FavoriteBooks> createState() => _FavoriteBooksState();
 }
 
 class _FavoriteBooksState extends State<FavoriteBooks> {
@@ -13,11 +13,11 @@ class _FavoriteBooksState extends State<FavoriteBooks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorite Books'),
+        title: const Text('Favorite Books'),
       ),
       body: Center(
         child: FavoritesBooksModels.getFavoriteBooks().isEmpty
-            ? Text('No favorite books')
+            ? const Text('No favorite books')
             : ListView.builder(
                 itemCount: FavoritesBooksModels.getFavoriteBooks().length,
                 itemBuilder: (context, index) {
@@ -46,7 +46,7 @@ class BooksHistoryCard extends StatelessWidget {
   final String bookCover;
   final VoidCallback? onRemove;
 
-  BooksHistoryCard({
+  const BooksHistoryCard({super.key, 
     required this.bookTitle,
     required this.bookCover,
     this.onRemove,
@@ -79,7 +79,7 @@ class BooksHistoryCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: onRemove,
                 ),
               ],
