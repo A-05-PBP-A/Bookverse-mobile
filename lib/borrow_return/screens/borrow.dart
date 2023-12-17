@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:flutter/scheduler.dart';
 import 'package:bookverse_mobile/borrow_return/widgets/dropdown.dart';
-import 'package:bookverse_mobile/borrow_return/screens/return.dart';
+import 'package:bookverse_mobile/borrow_return/screens/return_integrate.dart';
+import 'package:bookverse_mobile/borrow_return/models/book.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'dart:convert';
 
 class BookFormPage extends StatefulWidget {
   const BookFormPage({super.key});
@@ -11,11 +15,27 @@ class BookFormPage extends StatefulWidget {
 }
 
 class _BookFormPageState extends State<BookFormPage> {
+  // String baseUrl = "http://127.0.0.1:8000";
+  String baseUrl = "http://10.0.2.2:8000";
   final _formKey = GlobalKey<FormState>();
+  String _book = '';
+  Future<List<Book>> fetchBooks(request) async {
+    var books = await request.get('http://127.0.0.1:8000/books');
+    List<Book> allBooks = [];
+    for (var book in books) {
+      if (book != null) {
+        allBooks.add(Book.fromJson(book));
+      }
+    }
+    return allBooks;
+  }
+
+  String imageUrl =
+      'http://images.amazon.com/images/P/0195153448.01.LZZZZZZZ.jpg';
 
   @override
   Widget build(BuildContext context) {
-    //final request = context.watch<CookieRequest>();
+    final request = context.watch<CookieRequest>();
     return Scaffold(
         appBar: AppBar(
           title: const Center(
@@ -37,14 +57,12 @@ class _BookFormPageState extends State<BookFormPage> {
                   child: Padding(
                       padding: const EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 30.0, bottom: 15.0),
-                      child: Image.network(
-                          'http://images.amazon.com/images/P/0195153448.01.LZZZZZZZ.jpg',
-                          height: 250,
-                          width: 200))),
-              Align(
+                      child: Image.network(replaceUrl(imageUrl),
+                          height: 250, width: 200))),
+              const Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 0.0, bottom: 15.0),
                       child: Text('Select the book title of your choice:',
                           style: TextStyle(
@@ -56,7 +74,19 @@ class _BookFormPageState extends State<BookFormPage> {
                   child: Padding(
                       padding: const EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 0.0, bottom: 15.0),
-                      child: DropdownTitle())),
+                      child: DropdownTitle(
+                        onValueChanged: (value) async {
+                          final response = await request.postJson(
+                              // 'http://10.0.2.2:8000/get-book-cover/',
+                              '$baseUrl/get-book-cover/',
+                              jsonEncode(
+                                  <String, String>{'id': value.toString()}));
+                          setState(() {
+                            imageUrl = response['url'];
+                            _book = value;
+                          });
+                        },
+                      ))),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -72,7 +102,7 @@ class _BookFormPageState extends State<BookFormPage> {
                             builder: (context) {
                               return AlertDialog(
                                 title: const Text('Terms & Conditions'),
-                                content: SingleChildScrollView(
+                                content: const SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -87,31 +117,64 @@ class _BookFormPageState extends State<BookFormPage> {
                                 ),
                                 actions: <Widget>[
                                   TextButton(
-                                    child: Text('Cancel'),
+                                    child: const Text('Cancel'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
                                   TextButton(
-                                    child: const Text('Yes'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                BorrowingPage()),
-                                      );
-                                    },
-                                  ),
+                                      child: const Text('Yes'),
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                        if (_formKey.currentState!.validate()) {
+                                          final response =
+                                              await request.postJson(
+                                                  // "http://127.0.0.1:8000/borrow-flutter/",
+                                                  "$baseUrl/borrow-flutter/",
+                                                  jsonEncode(<String, String>{
+                                                    'book': _book
+                                                  }));
+
+                                          if (response['status'] == 'success') {
+                                            SchedulerBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              if (mounted) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  content: Text(
+                                                      "You successfully borrowed the book!"),
+                                                ));
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const BorrowingPage()),
+                                                );
+                                              }
+                                            });
+                                          } else {
+                                            String note = response["message"];
+                                            SchedulerBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              if (mounted) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(note),
+                                                ));
+                                              }
+                                            });
+                                          }
+                                        }
+                                      }),
                                 ],
                               );
                             });
                       }
                     },
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.all(5.0),
-                      child: const Text('Borrow this book',
+                      child: Text('Borrow this book',
                           style: TextStyle(color: Colors.white, fontSize: 18)),
                     ),
                   ),
