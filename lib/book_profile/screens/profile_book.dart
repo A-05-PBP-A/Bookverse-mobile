@@ -5,8 +5,6 @@ import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:provider/provider.dart';
 
 
 int totalRating = 0;
@@ -88,7 +86,6 @@ class _BookPageState extends State<BookPage> {
 
 @override
     Widget build(BuildContext context) {
-      final request = context.watch<CookieRequest>();
       return Scaffold(
         appBar: AppBar(
           title: const Text('Detail Buku'),
@@ -194,7 +191,7 @@ class _BookPageState extends State<BookPage> {
                 ),
                 IconButton(
                   icon: _isFavorite ? const Icon(Icons.favorite, color: Colors.red) : const Icon(Icons.favorite_border),
-                  onPressed: () async{
+                  onPressed: () {
                     setState(() {
                       _isFavorite = !_isFavorite;
                     });
@@ -202,25 +199,7 @@ class _BookPageState extends State<BookPage> {
                     if (_isFavorite) {
                       print('Ditambahkan ke favorit');
                       // Tambahkan logika ketika difavoritkan
-                      final url = Uri.parse("http://127.0.0.1:8000/favorite-flutter/${widget.id}/");
-                      try {
-                        final response = await http.post(
-                          url
-                        );
-
-                        if (response.statusCode == 200) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                          content: Text("Added To Favorites"),
-                          ));
-                        } else {
-                          print('Failed to add to favorites. Status code: ${response.statusCode}');
-                          // Handle the error accordingly.
-                        }
-                      } catch (error) {
-                        print('Error: $error');
-                        // Handle network or other errors.
-                      }
+                      snapshot.data![0][index];
 
                     } else {
                       print('Dihapus dari favorit');
