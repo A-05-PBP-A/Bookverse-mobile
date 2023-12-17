@@ -129,6 +129,11 @@ class _BookPageState extends State<BookPage> {
       );
 
       if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Removed from Favorites"),
+          ),
+        );
         print('Book deleted successfully');
         setState(() {});
       } else {
