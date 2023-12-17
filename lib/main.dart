@@ -6,9 +6,18 @@ import 'package:bookverse_mobile/user_profile/screens/menu.dart';
 import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+        Provider<CookieRequest>(create: (_) => CookieRequest()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

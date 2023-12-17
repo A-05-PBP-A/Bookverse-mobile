@@ -4,9 +4,11 @@ import 'package:bookverse_mobile/user_profile/screens/favorite_books.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:bookverse_mobile/auth/screens/login.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 class UserPage extends StatelessWidget {
   UserPage({Key? key}) : super(key: key);
+
   final List<Functionality> functions = [
     Functionality("Readed Books", Image.asset(
       'assets/images/bookLogo.png',
@@ -14,14 +16,14 @@ class UserPage extends StatelessWidget {
       height: 30,
     )),
     Functionality("Favorites Books", Icons.book),
-    Functionality("Settings", Icons.settings),
+    Functionality("Edit Profile", Icons.edit),
   ];
 
   final List<Functionality> bottomFunctions = [
     Functionality("Logout", Icons.logout),
   ];
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,63 +34,83 @@ class UserPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Text(
-                  'Bookverse',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Container(
-                color: Colors.grey[800],
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(
-                        'assets/images/defaultProfile.png',
-                        width: 120,
-                        height: 120,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Username',
-                          labelStyle: TextStyle(
-                            color: Colors.white, // Change label text color to white
+      body: Builder(
+        builder: (context) {
+          final userProvider = Provider.of<UserProvider>(context, listen: false);
+          return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        child: Text(
+                          'Bookverse',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
-                          border: InputBorder.none,
                         ),
                       ),
-                    ),
-                  ],
+                      Container(
+                        color: Colors.grey[800],
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.asset(
+                                userProvider.image.isNotEmpty
+                                ? userProvider.image
+                                : 'assets/images/defaultProfile.png',
+                                width: 120,
+                                height: 120,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${userProvider.username}",
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  // Display the user's bio
+                                  Text(
+                                    "${userProvider.bio}",
+                                    style: const TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20), // Add space between the first container and the function
+
+                      // Spread (...) operator to include the lists in the Column widget
+                      ...functions.map((function) => FunctionCard(function)).toList(),
+
+                      const Divider(),
+
+                      // Bottom functionalities
+                      ...bottomFunctions.map((function) => FunctionCard(function)).toList(),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20), // Add space between the first container and the function
-
-              //spread (...) operator to include the lists in the Column widget
-              ...functions.map((function) => FunctionCard(function)).toList(),
-
-              const Divider(),
-
-              // Bottom functionalities
-              ...bottomFunctions.map((function) => FunctionCard(function)).toList(),
-            ],
-          ),
-        ),
+              );
+        },
       ),
     );
   }
