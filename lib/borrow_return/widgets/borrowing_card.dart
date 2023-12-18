@@ -12,7 +12,6 @@ class BorrowingCard extends StatelessWidget {
   final Function onReturn;
   const BorrowingCard(
       {super.key, required this.borrowed, required this.onReturn});
-  //const BorrowingCard({super.key, required this.borrowed, required this.imageUrl, required this.returnDate, required this.id});
   //final String baseUrl = "http://127.0.0.1:8000";
   final String baseUrl = "http://10.0.2.2:8000";
   @override

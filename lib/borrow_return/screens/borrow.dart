@@ -18,6 +18,7 @@ class BookFormPage extends StatefulWidget {
 
 class _BookFormPageState extends State<BookFormPage> {
   late String currentId = widget.id;
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +28,7 @@ class _BookFormPageState extends State<BookFormPage> {
   // String baseUrl = "http://127.0.0.1:8000";
   String baseUrl = "http://10.0.2.2:8000";
   final _formKey = GlobalKey<FormState>();
-  String _book = '1';
+
   Future<List<Book>> fetchBooks(request) async {
     var books = await request.get('http://127.0.0.1:8000/books');
     List<Book> allBooks = [];
@@ -40,13 +41,6 @@ class _BookFormPageState extends State<BookFormPage> {
   }
 
   Future<String> fetchUrl(String id) async {
-    // final response = await request.post(
-    //   // 'http://10.0.2.2:8000/get-book-cover/',
-    //   'http://127.0.0.1:8000/get-book-cover/',
-    //   jsonEncode(<String, String>{'id': '$widget.id'}),
-    // );
-    // print(response['url']);
-    // return response['url'];
     final response =
         await http.post(Uri.parse('http://127.0.0.1:8000/get-book-cover/'),
             headers: <String, String>{
@@ -124,15 +118,8 @@ class _BookFormPageState extends State<BookFormPage> {
                       child: DropdownTitle(
                         id: widget.id,
                         onValueChanged: (value) async {
-                          // final response = await request.postJson(
-                          //     // 'http://10.0.2.2:8000/get-book-cover/',
-                          //     'http://127.0.0.1:8000/get-book-cover/',
-                          //     jsonEncode(
-                          //         <String, String>{'id': value.toString()}));
                           setState(() {
                             currentId = value;
-                            //imageUrl = response['url'];
-                            _book = value;
                           });
                         },
                       ))),
@@ -181,7 +168,7 @@ class _BookFormPageState extends State<BookFormPage> {
                                                   // "http://127.0.0.1:8000/borrow-flutter/",
                                                   "http://127.0.0.1:8000/borrow-flutter/",
                                                   jsonEncode(<String, String>{
-                                                    'book': _book
+                                                    'book': currentId
                                                   }));
 
                                           if (response['status'] == 'success') {

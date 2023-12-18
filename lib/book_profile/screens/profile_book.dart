@@ -332,7 +332,7 @@ class _BookPageState extends State<BookPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => BookFormPage(
-                                            id: snapshot.data![index].pk
+                                            id: snapshot.data![0][index].pk
                                                 .toString())));
                               },
                               style: ElevatedButton.styleFrom(

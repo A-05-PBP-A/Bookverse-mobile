@@ -29,11 +29,6 @@ class _DropdownTitleState extends State<DropdownTitle> {
     return allBooks;
   }
 
-  // String _selected =
-  //     "http://images.amazon.com/images/P/0195153448.01.LZZZZZZZ.jpg";
-  String imageUrl = '';
-  // String _book = '';
-
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -44,14 +39,6 @@ class _DropdownTitleState extends State<DropdownTitle> {
           return DropdownMenu<String>(
             initialSelection: widget.id,
             onSelected: (String? value) async {
-              final response = await request.postJson(
-                  'http://127.0.0.1:8000/get-book-cover/',
-                  // 'http://127.0.0.1:8000/get-book-cover/',
-                  jsonEncode(<String, String>{'id': value.toString()}));
-              setState(() {
-                imageUrl = response['url'];
-                //_book = value!;
-              });
               widget.onValueChanged(value!);
             },
             dropdownMenuEntries:
