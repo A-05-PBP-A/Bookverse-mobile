@@ -186,10 +186,13 @@ Widget build(BuildContext context) {
                                           .showSnackBar(const SnackBar(
                                       content: Text("Review berhasil dibuat!"),
                                       ));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId,)),
-                                      );
+
+                                  Navigator.pop(context); 
+
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId)),
+                                    );
                                   } else {
                                       showDialog(
                                         context: context,

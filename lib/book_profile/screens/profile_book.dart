@@ -197,7 +197,6 @@ class _BookPageState extends State<BookPage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Child di pojok kiri
                                   MouseRegion(
                                     child: InkWell(
                                       onTap: () {

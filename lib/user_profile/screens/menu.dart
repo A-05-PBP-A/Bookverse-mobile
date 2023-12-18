@@ -1,4 +1,5 @@
 import 'package:bookverse_mobile/borrow_return/screens/return_integrate.dart';
+import 'package:bookverse_mobile/user_profile/screens/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/screens/readed_books.dart';
 import 'package:bookverse_mobile/user_profile/screens/favorite_books.dart';
@@ -147,8 +148,11 @@ class FunctionCard extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => const FavoriteBooks()),
             );
-          } else if (function.name == "Settings") {
-            // Navigate to Settings page
+          } else if (function.name == "Edit Profile") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EditProfilePage()),
+            );
           } else if (function.name == "Logout") {
             final response = await request.logout(
             // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
