@@ -152,7 +152,7 @@ class FunctionCard extends StatelessWidget {
           } else if (function.name == "Logout") {
             final response = await request.logout(
             // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                "http://127.0.0.1:8000/logout_flutter/");
+                "https://bookverse-a05-tk.pbp.cs.ui.ac.id/logout_flutter/");
             String message = response["message"];
             if (response['status']) {
               String uname = response["username"];

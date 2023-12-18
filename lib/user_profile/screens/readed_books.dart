@@ -16,7 +16,7 @@ class _ReadedBooksState extends State<ReadedBooks> {
   Future<List<BooksHistoryModel>> fetchBook(username) async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
-        'http://127.0.0.1:8000/book_history_flutter/$username/');
+        'https://bookverse-a05-tk.pbp.cs.ui.ac.id/book_history_flutter/$username/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},

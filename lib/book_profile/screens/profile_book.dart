@@ -26,7 +26,7 @@ class BookPage extends StatefulWidget {
 class _BookPageState extends State<BookPage> {
   Future<List<Book>> fetchBook() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-    var url = Uri.parse('http://127.0.0.1:8000/api/${widget.id}/');
+    var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/api/${widget.id}/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -45,7 +45,7 @@ class _BookPageState extends State<BookPage> {
 
   Future<List<Review>> fetchReview() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-    var url = Uri.parse('http://127.0.0.1:8000/get_review_json/${widget.id}/');
+    var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get_review_json/${widget.id}/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -96,7 +96,7 @@ class _BookPageState extends State<BookPage> {
   Future<void> fetchFavBook(username) async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url =
-        Uri.parse('http://127.0.0.1:8000/book_favorite_flutter/$username/');
+        Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/book_favorite_flutter/$username/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -117,7 +117,7 @@ class _BookPageState extends State<BookPage> {
   }
 
   Future<void> deleteFavBook(int bookId) async {
-    final url = 'http://127.0.0.1:8000/delete_bookFav/$bookId/';
+    final url = 'https://bookverse-a05-tk.pbp.cs.ui.ac.id/delete_bookFav/$bookId/';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -146,7 +146,7 @@ class _BookPageState extends State<BookPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Buku'),
+        title: const Text('Book Details'),
       ),
       body: FutureBuilder(
         future: Future.wait([fetchBook(), fetchReview()]),
@@ -194,7 +194,7 @@ class _BookPageState extends State<BookPage> {
                                 MouseRegion(
                                   child: InkWell(
                                     onTap: () {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ReviewPage(
@@ -278,7 +278,7 @@ class _BookPageState extends State<BookPage> {
                                         false) {
                                       try {
                                         final response = await request.postJson(
-                                          "http://127.0.0.1:8000/favorite-flutter/",
+                                          "https://bookverse-a05-tk.pbp.cs.ui.ac.id/favorite-flutter/",
                                           jsonEncode(<String, int>{
                                             'bookId': widget.id,
                                           }),
@@ -344,7 +344,7 @@ class _BookPageState extends State<BookPage> {
                                 side: const BorderSide(color: Colors.black),
                               ),
                               child: const Text(
-                                'Pinjam',
+                                'Borrow',
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),

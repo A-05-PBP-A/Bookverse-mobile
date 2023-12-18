@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Book> _filteredBooks = [];
 
   Future<List<Book>> fetchProduct() async {
-    var url = Uri.parse('http://127.0.0.1:8000/get-books/');
+    var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get-books/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},

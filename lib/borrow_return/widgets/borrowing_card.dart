@@ -13,7 +13,7 @@ class BorrowingCard extends StatelessWidget {
   const BorrowingCard(
       {super.key, required this.borrowed, required this.onReturn});
   //final String baseUrl = "http://127.0.0.1:8000";
-  final String baseUrl = "http://10.0.2.2:8000";
+  final String baseUrl = "https://bookverse-a05-tk.pbp.cs.ui.ac.id";
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -23,7 +23,7 @@ class BorrowingCard extends StatelessWidget {
     final userProvider =
         Provider.of<UserProvider>(context, listen: false); //data user login
 
-    return GestureDetector(
+    return InkWell(
         onTap: () {
           Navigator.push(
             context,
@@ -105,7 +105,7 @@ class BorrowingCard extends StatelessWidget {
                                               int borrowingId = borrowed.pk;
                                               final response =
                                                   await request.postJson(
-                                                      'http://127.0.0.1:8000/return-flutter/${userProvider.username}/',
+                                                      'https://bookverse-a05-tk.pbp.cs.ui.ac.id/return-flutter/${userProvider.username}/',
                                                       jsonEncode(<String,
                                                           String>{
                                                         'id': borrowingId
