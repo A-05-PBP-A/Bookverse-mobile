@@ -1,9 +1,19 @@
 import 'dart:convert';
+import 'package:bookverse_mobile/book_profile/models/review.dart';
 import 'package:bookverse_mobile/book_profile/screens/review_page.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/user_profile/models/favorite_books_models.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
+
+
+int totalRating = 0;
+int totalReviews = 0;
+double averageRating = 0.0;
 
 class BookPage extends StatefulWidget {
   final int id;
@@ -33,13 +43,115 @@ class _BookPageState extends State<BookPage> {
             }
         }
         return books;
-  }
+      }
+
+      Future<List<Review>> fetchReview() async {
+        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+        var url = Uri.parse(
+            'http://127.0.0.1:8000/get_review_json/${widget.id}/');
+        var response = await http.get(
+            url,
+            headers: {"Content-Type": "application/json"},
+        );
+        
+        // melakukan decode response menjadi bentuk json
+        var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+        // melakukan konversi data json menjadi object Review
+        List<Review> reviews = [];
+        for (var d in data) {
+          if (d != null) {
+              Review review = Review.fromJson(d);
+              reviews.add(review);
+          }
+        }
+
+        updateReviewData(reviews);
+
+        reviews = reviews.length > 3 ? reviews.sublist(reviews.length - 3) : reviews;
+
+        return reviews;
+      }
+
+      void updateReviewData(List<Review> reviews) {
+        int tempTotalRating = 0;
+        int tempTotalReviews = 0;
+
+        // Menghitung total rating dan total reviews
+        for (var review in reviews) {
+          tempTotalRating += review.fields.rating;
+          tempTotalReviews++;
+        }
+
+        // Mengupdate variabel global
+        totalRating = tempTotalRating;
+        totalReviews = tempTotalReviews;
+
+        // Menghitung rata-rata
+        if (totalReviews > 0) {
+          averageRating = totalRating / totalReviews;
+        } else {
+          averageRating = 0.0;
+        }
+
+        // Memanggil setState untuk memperbarui UI
+        setState(() {});
+      }
+
+      Future<void> fetchFavBook(username) async {
+      // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+      var url = Uri.parse(
+          'http://127.0.0.1:8000/book_favorite_flutter/$username/');
+      var response = await http.get(
+          url,
+          headers: {"Content-Type": "application/json"},
+      );
+      
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+        for (var d in data) {
+            if (d != null) {
+                listFavBook.add(FavBook.fromJson(d));
+            }
+        }
+    }
+
+    //cek apakah buku sudah di favorite atau belum
+    bool isBookFav(List<FavBook> listFavBook, String bookTitle) {
+      return listFavBook.any((book) => book.fields.bookTitle == bookTitle);
+    }
+
+    Future<void> deleteFavBook(int bookId) async {
+      final url = 'http://127.0.0.1:8000/delete_bookFav/$bookId/';
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Removed from Favorites"),
+          ),
+        );
+        print('Book deleted successfully');
+        setState(() {});
+      } else {
+        print('Failed to delete book');
+      }
+    }
+
+
   bool _isHovering = false;
   bool _isHoveringSee = false;
-  bool _isFavorite = false;
+  List<FavBook> listFavBook = []; //list buku favorit
 
 @override
     Widget build(BuildContext context) {
+      final request = context.watch<CookieRequest>();
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      fetchFavBook(userProvider.username);
+
       return Scaffold(
         appBar: AppBar(
           title: const Text('Detail Buku'),
@@ -64,7 +176,7 @@ class _BookPageState extends State<BookPage> {
                     height: 500, 
                     child: Center(
                       child: Image.network(
-                        "${snapshot.data![index].fields.imageUrlL}", 
+                        "${snapshot.data![index].fields.imageUrlL}",
                       ),
                     ),
                   ),
@@ -79,7 +191,9 @@ class _BookPageState extends State<BookPage> {
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 15),
-            Row(
+            SizedBox(
+            width: 600,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 MouseRegion(
@@ -95,7 +209,7 @@ class _BookPageState extends State<BookPage> {
                             builder: (context) => ReviewPage(
                               bookName: snapshot.data![index].fields.title,
                               imageUrl: snapshot.data![index].fields.imageUrlL, 
-                              bookId: 1,
+                              bookId: widget.id,
                             ),
                           ),
                         );
@@ -104,12 +218,12 @@ class _BookPageState extends State<BookPage> {
                         children: [
                           Row(
                             children: List.generate(
-                              averageRating.round(), 
+                              averageRating.round(), // Ubah dengan average ini masih temp
                               (index) => const Icon(Icons.star, color: Colors.orange, size: 22.0),
                             )
                             ..addAll(
                               List.generate(
-                                5 - averageRating.round(), 
+                                5 - averageRating.round(), // Ubah dengan average ini masih temp
                                 (index) => const Icon(Icons.star, color: Colors.grey, size: 22.0),
                               ),
                             ),
@@ -120,7 +234,7 @@ class _BookPageState extends State<BookPage> {
                             style: DefaultTextStyle.of(context).style,
                             children: [
                               TextSpan(
-                                text: averageRating.toStringAsFixed(1),
+                                text: averageRating.toStringAsFixed(1), // Ubah dengan average ini masih temp
                                 style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                               const WidgetSpan(
@@ -130,7 +244,7 @@ class _BookPageState extends State<BookPage> {
                                 child: Icon(Icons.star, color: Colors.black, size: 15),
                               ),
                               TextSpan(
-                                text: ' | $totalReviews Ratings', 
+                                text: ' | $totalReviews Ratings', // Ubah ke jumlah rating ini masih temp 
                                 style: const TextStyle(fontSize: 13),
                               ),
                             ],
@@ -142,22 +256,49 @@ class _BookPageState extends State<BookPage> {
                   ),
                 ),
                 IconButton(
-                  icon: _isFavorite ? const Icon(Icons.favorite, color: Colors.red) : const Icon(Icons.favorite_border),
-                  onPressed: () {
-                    setState(() {
-                      _isFavorite = !_isFavorite;
-                    });
+                  
+                  icon: isBookFav(listFavBook, snapshot.data![index].fields.title)
+                      ? const Icon(Icons.favorite, color: Colors.red)
+                      : const Icon(Icons.favorite_border),
+                  onPressed: () async {
+                    //add ke favorites
+                    if (isBookFav(listFavBook, snapshot.data![index].fields.title) == false){
+                      try {
+                        final response = await request.postJson(
+                          "http://127.0.0.1:8000/favorite-flutter/",
+                          jsonEncode(<String, int>{
+                            'bookId': widget.id,
+                          }),
+                        );
 
-                    if (_isFavorite) {
-                      print('Ditambahkan ke favorit');
-                      // Tambahkan logika ketika difavoritkan
-                    } else {
-                      print('Dihapus dari favorit');
-                      // Tambahkan logika ketika dihapus dari favorit
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Added To Favorites"),
+                            ),
+                          );
+                        } else {
+                          print('Failed to add to favorites. Status code: ${response.statusCode}');
+                          // Handle the error accordingly.
+                        }
+                      } catch (error) {
+                        print('Error: $error');
+                        // Handle network or other errors.
+                      }
+                    }
+
+                    //remove dari favorites
+                    else{
+                      await deleteFavBook(snapshot.data![index].pk);
+                      // reload the page by calling setState
+                      setState(() {
+                        listFavBook.removeWhere((book) => book.fields.bookTitle == snapshot.data![index].fields.title);
+                      });
                     }
                   },
                 )
               ],
+            ),
             ),
             const SizedBox(height: 15),
             SizedBox(
@@ -225,7 +366,9 @@ class _BookPageState extends State<BookPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
+            SizedBox(
+            width: 600,
+            child :Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text(
@@ -245,7 +388,7 @@ class _BookPageState extends State<BookPage> {
                             builder: (context) => ReviewPage(
                               bookName: snapshot.data![index].fields.title,
                               imageUrl: snapshot.data![index].fields.imageUrlL, 
-                              bookId: 1,
+                              bookId: widget.id,
                             ),
                           ),
                         );
@@ -263,10 +406,129 @@ class _BookPageState extends State<BookPage> {
                         ),
                       ],
                     ),
+                    ),
+                    FutureBuilder(
+                    future: fetchReview(),
+                    builder: (context, AsyncSnapshot<List<Review>> snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        if (snapshot.data == null || snapshot.data!.isEmpty) {
+                          return const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 8),
+                                Text(
+                                  "Tidak ada review.",
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 0, 0),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Silakan tambahkan review untuk buku ini.",
+                                  style: TextStyle(color: Colors.grey, fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                elevation: 5,
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 16,
+                                ),
+                                child: ListTile(
+                                  title: RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context).style,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: snapshot.data![index].fields.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: List.generate(
+                                          snapshot.data![index].fields.rating,
+                                          (index) => const Icon(
+                                            Icons.star,
+                                            color: Colors.orange,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(snapshot.data![index].fields.review),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(snapshot.data![index].fields.name),
+                                          content: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Row(
+                                                children: List.generate(
+                                                  snapshot.data![index].fields.rating,
+                                                  (index) => const Icon(
+                                                    Icons.star,
+                                                    color: Colors.orange,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(snapshot.data![index].fields.review),
+                                            ],
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Tutup'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        }
+                      }
+                    )
                   ], 
                 ), 
               )
-           ); 
+            ); 
           }
         }, 
       ),

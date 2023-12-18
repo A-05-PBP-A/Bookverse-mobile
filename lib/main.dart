@@ -1,13 +1,23 @@
+import 'package:bookverse_mobile/auth/screens/login.dart';
+import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:bookverse_mobile/borrow_return/screens/return.dart';
 import 'package:bookverse_mobile/user_profile/screens/menu.dart';
-import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+        Provider<CookieRequest>(create: (_) => CookieRequest()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +36,11 @@ class MyApp extends StatelessWidget {
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
                     useMaterial3: true,
                 ),
-                home: const MyNavBar()),
+                 home: const LoginPage(),
+                routes: {
+                      "/login": (BuildContext context) => const LoginPage(),
+                  },
+                ),
             );
     }
 }
@@ -41,7 +55,7 @@ class MyNavBar extends StatefulWidget {
 class _MyNavBarState extends State<MyNavBar> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    MyHomePage(),
+    const MyHomePage(),
     const BookFormPage(),
     const BorrowingPage(),
     UserPage(),

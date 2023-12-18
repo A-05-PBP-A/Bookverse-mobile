@@ -1,4 +1,5 @@
 import 'package:bookverse_mobile/book_profile/models/review.dart';
+import 'package:bookverse_mobile/book_profile/screens/profile_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -6,10 +7,6 @@ import 'dart:convert';
 
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-
-int totalRating = 0;
-int totalReviews = 0;
-double averageRating = 0.0;
 
 class ReviewPage extends StatefulWidget {
   final String bookName;
@@ -32,7 +29,7 @@ class _ReviewPageState extends State<ReviewPage> {
 Future<List<Review>> fetchReview() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
-        'http://127.0.0.1:8000/json/');
+        'http://127.0.0.1:8000/get_review_json/${widget.bookId}/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -41,29 +38,13 @@ Future<List<Review>> fetchReview() async {
     // melakukan decode response menjadi bentuk json
     var data = jsonDecode(utf8.decode(response.bodyBytes));
 
-    int tempTotalRating = 0;
-    int tempTotalReviews = 0; 
     // melakukan konversi data json menjadi object Review
     List<Review> reviews = [];
     for (var d in data) {
       if (d != null) {
           Review review = Review.fromJson(d);
-          if (d['fields']['book'] == widget.bookId) {
-            tempTotalRating += review.fields.rating;
-            tempTotalReviews++;
-            reviews.add(review);
-        }
+          reviews.add(review);
       }
-    }
-    // mengupdate variabel global
-    totalRating = tempTotalRating;
-    totalReviews = tempTotalReviews;
-
-    // menghitung rata-rata
-    if (totalReviews > 0) {
-      averageRating = totalRating / totalReviews;
-    } else {
-      averageRating = 0.0; 
     }
 
     return reviews;
@@ -201,18 +182,14 @@ Widget build(BuildContext context) {
                                       // TODO: Sesuaikan field data sesuai dengan aplikasimu
                                   }));
                                   if (response['status'] == 'success') {
-                                      totalRating += _rating;
-                                      totalReviews++;
-
-                                      if (totalReviews > 0) {
-                                        averageRating = totalRating / totalReviews;
-                                      } else {
-                                        averageRating = 0.0; // menghindari pembagian oleh nol
-                                      }
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
                                       content: Text("Review berhasil dibuat!"),
                                       ));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId,)),
+                                      );
                                   } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
@@ -358,7 +335,6 @@ Widget build(BuildContext context) {
               }
             },
           ),
-      
       ],
     ),
   )

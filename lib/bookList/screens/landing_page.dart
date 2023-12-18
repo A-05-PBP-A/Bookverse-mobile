@@ -357,7 +357,7 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 String _search = "";
@@ -515,7 +515,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      "${_filteredBooks[index].fields.author}",
+                                      _filteredBooks[index].fields.author,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
