@@ -169,8 +169,11 @@ class _BookPageState extends State<BookPage> {
                           SizedBox(
                             height: 500,
                             child: Center(
-                              child: Image.network(
-                                "${snapshot.data![0][index].fields.imageUrlL}",
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                                child: Image.network(
+                                  "${snapshot.data![0][index].fields.imageUrlL}",
+                                ),
                               ),
                             ),
                           ),
@@ -186,83 +189,72 @@ class _BookPageState extends State<BookPage> {
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 15),
-                          SizedBox(
-                            width: 600,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                MouseRegion(
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReviewPage(
-                                            bookName: snapshot
-                                                .data![0][index].fields.title,
-                                            imageUrl: snapshot.data![0][index]
-                                                .fields.imageUrlL,
-                                            bookId: widget.id,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: List.generate(
-                                            averageRating
-                                                .round(), // Ubah dengan average ini masih temp
-                                            (index) => const Icon(Icons.star,
-                                                color: Colors.orange,
-                                                size: 22.0),
-                                          )..addAll(
-                                              List.generate(
-                                                5 -
-                                                    averageRating
-                                                        .round(), // Ubah dengan average ini masih temp
-                                                (index) => const Icon(
-                                                    Icons.star,
-                                                    color: Colors.grey,
-                                                    size: 22.0),
-                                              ),
+                          Container(
+                            width: 390,
+                            padding: const EdgeInsets.symmetric(horizontal: 20), 
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 400), 
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Child di pojok kiri
+                                  MouseRegion(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ReviewPage(
+                                              bookName: snapshot.data![0][index].fields.title,
+                                              imageUrl: snapshot.data![0][index].fields.imageUrlL,
+                                              bookId: widget.id,
                                             ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: DefaultTextStyle.of(context)
-                                                .style,
-                                            children: [
-                                              TextSpan(
-                                                text: averageRating.toStringAsFixed(
-                                                    1), // Ubah dengan average ini masih temp
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const WidgetSpan(
-                                                child: SizedBox(width: 4),
-                                              ),
-                                              const WidgetSpan(
-                                                child: Icon(Icons.star,
-                                                    color: Colors.black,
-                                                    size: 15),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    ' | $totalReviews Ratings',
-                                                style: const TextStyle(
-                                                    fontSize: 13),
-                                              ),
-                                            ],
                                           ),
-                                        ),
-                                      ],
+                                        );
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: List.generate(
+                                              averageRating.round(),
+                                              (index) => const Icon(Icons.star,
+                                                  color: Colors.orange, size: 22.0),
+                                            )..addAll(
+                                                List.generate(
+                                                  5 - averageRating.round(),
+                                                  (index) => const Icon(Icons.star,
+                                                      color: Colors.grey, size: 22.0),
+                                                ),
+                                              ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          RichText(
+                                            text: TextSpan(
+                                              style: DefaultTextStyle.of(context).style,
+                                              children: [
+                                                TextSpan(
+                                                  text: averageRating.toStringAsFixed(1),
+                                                  style: const TextStyle(
+                                                      fontSize: 13, fontWeight: FontWeight.bold),
+                                                ),
+                                                const WidgetSpan(
+                                                  child: SizedBox(width: 4),
+                                                ),
+                                                const WidgetSpan(
+                                                  child: Icon(Icons.star, color: Colors.black, size: 15),
+                                                ),
+                                                TextSpan(
+                                                  text: ' | $totalReviews Ratings',
+                                                  style: const TextStyle(fontSize: 13),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                
                                 IconButton(
                                   icon: isBookFav(listFavBook,
                                           snapshot.data![0][index].fields.title)
@@ -317,45 +309,50 @@ class _BookPageState extends State<BookPage> {
                                                 .data![0][index].fields.title);
                                       });
                                     }
-                                  },
-                                )
-                              ],
+                                   },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 15),
                           SizedBox(
                             width: 400,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Redirect ke page pinjam buku
-                                Navigator.push(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0), 
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Redirect ke page pinjam buku
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BookFormPage(
-                                            id: snapshot.data![0][index].pk
-                                                .toString())));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.white,
-                                shape: const StadiumBorder(),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                side: const BorderSide(color: Colors.black),
-                              ),
-                              child: const Text(
-                                'Borrow',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                      builder: (context) => BookFormPage(
+                                        id: snapshot.data![0][index].pk.toString(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.white,
+                                  shape: const StadiumBorder(),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                                  side: const BorderSide(color: Colors.black),
+                                ),
+                                child: const Text(
+                                  'Borrow',
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(height: 15),
                           const SizedBox(
-                            width: 400,
-                            child: Divider(
-                              color: Colors.black,
-                              thickness: 0.5,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                              child: Divider(
+                                color: Colors.black,
+                                thickness: 0.5,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -387,21 +384,25 @@ class _BookPageState extends State<BookPage> {
                           ),
                           const SizedBox(height: 15),
                           const SizedBox(
-                            width: 400,
-                            child: Divider(
-                              color: Colors.black,
-                              thickness: 0.5,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                              child: Divider(
+                                color: Colors.black,
+                                thickness: 0.5,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
-                            width: 600,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  'User Review',
-                                  style: TextStyle(fontSize: 20),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: const Text(
+                                    'User Review',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                 ),
                                 MouseRegion(
                                   child: InkWell(
@@ -410,10 +411,8 @@ class _BookPageState extends State<BookPage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ReviewPage(
-                                            bookName: snapshot
-                                                .data![0][index].fields.title,
-                                            imageUrl: snapshot.data![0][index]
-                                                .fields.imageUrlL,
+                                            bookName: snapshot.data![0][index].fields.title,
+                                            imageUrl: snapshot.data![0][index].fields.imageUrlL,
                                             bookId: widget.id,
                                           ),
                                         ),
