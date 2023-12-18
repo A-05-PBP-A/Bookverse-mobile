@@ -195,6 +195,3 @@ class Functionality {
 
   Functionality(this.name, this.icon);
 }
-
-
-
