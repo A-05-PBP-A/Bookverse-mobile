@@ -29,7 +29,7 @@ class _ReviewPageState extends State<ReviewPage> {
 Future<List<Review>> fetchReview() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
-        'http://127.0.0.1:8000/get_review_json/${widget.bookId}/');
+        'https://bookverse-a05-tk.pbp.cs.ui.ac.id/get_review_json/${widget.bookId}/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -174,7 +174,7 @@ Widget build(BuildContext context) {
                                   // Kirim ke Django dan tunggu respons
                                   // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                                   final response = await request.postJson(
-                                  "http://127.0.0.1:8000/create-flutter/",
+                                  "https://bookverse-a05-tk.pbp.cs.ui.ac.id/create-flutter/",
                                   jsonEncode(<String, String>{
                                       'book_id': widget.bookId.toString(),
                                       'rating': _rating.toString(),
@@ -191,11 +191,21 @@ Widget build(BuildContext context) {
                                           MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId,)),
                                       );
                                   } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                          content:
-                                              Text("Terdapat kesalahan, silakan coba lagi."),
-                                      ));
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text('Review Already Submitted'),
+                                          content: Text(response['message']),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
                                   }
                               }
                           },
