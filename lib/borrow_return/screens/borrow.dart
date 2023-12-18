@@ -18,7 +18,7 @@ class _BookFormPageState extends State<BookFormPage> {
   // String baseUrl = "http://127.0.0.1:8000";
   String baseUrl = "http://10.0.2.2:8000";
   final _formKey = GlobalKey<FormState>();
-  String _book = '';
+  String _book = '1';
   Future<List<Book>> fetchBooks(request) async {
     var books = await request.get('http://127.0.0.1:8000/books');
     List<Book> allBooks = [];
