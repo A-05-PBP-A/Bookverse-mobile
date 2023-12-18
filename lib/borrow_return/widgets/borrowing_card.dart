@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 class BorrowingCard extends StatelessWidget {
   final Borrowing borrowed;
@@ -19,6 +21,8 @@ class BorrowingCard extends StatelessWidget {
     final DateTime returnDate = borrowed.fields.returnDate;
     final DateFormat df = DateFormat('yyyy-MM-dd');
     final String formattedDateTime = df.format(returnDate);
+    final userProvider = Provider.of<UserProvider>(context, listen: false); //data user login
+
     return GestureDetector(
         onTap: () {},
         child: Card(
@@ -89,8 +93,7 @@ class BorrowingCard extends StatelessWidget {
                                           Navigator.pop(context);
                                           int borrowingId = borrowed.pk;
                                           final response = await request.postJson(
-                                              '$baseUrl/return-flutter/',
-                                              // 'http://127.0.0.1:8000/return-flutter/',
+                                              'http://127.0.0.1:8000/return-flutter/${userProvider.username}/',
                                               jsonEncode(<String, String>{
                                                 'id': borrowingId.toString(),
                                               }));

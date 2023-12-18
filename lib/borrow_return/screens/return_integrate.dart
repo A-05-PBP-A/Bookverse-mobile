@@ -31,7 +31,7 @@ class BorrowingPageState extends State<BorrowingPage> {
 
   Future<List<Borrowing>> fetchBorrowing(request) async {
     //'https://10.0.0.2/borrowing-data/'
-    var data = await request.get('$baseUrl/borrowing-data/');
+    var data = await request.get('http://127.0.0.1:8000/borrowing-data/');
     // var data = await request.get('http://127.0.0.1:8000/borrowing-data/');
     // melakukan konversi data json menjadi object Borrowing
     List<Borrowing> listBorrowing = [];

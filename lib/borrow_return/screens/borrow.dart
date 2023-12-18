@@ -78,7 +78,7 @@ class _BookFormPageState extends State<BookFormPage> {
                         onValueChanged: (value) async {
                           final response = await request.postJson(
                               // 'http://10.0.2.2:8000/get-book-cover/',
-                              '$baseUrl/get-book-cover/',
+                              'http://127.0.0.1:8000/get-book-cover/',
                               jsonEncode(
                                   <String, String>{'id': value.toString()}));
                           setState(() {
@@ -130,7 +130,7 @@ class _BookFormPageState extends State<BookFormPage> {
                                           final response =
                                               await request.postJson(
                                                   // "http://127.0.0.1:8000/borrow-flutter/",
-                                                  "$baseUrl/borrow-flutter/",
+                                                  "http://127.0.0.1:8000/borrow-flutter/",
                                                   jsonEncode(<String, String>{
                                                     'book': _book
                                                   }));
