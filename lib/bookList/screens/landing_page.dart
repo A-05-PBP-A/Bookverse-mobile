@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       CrossAxisAlignment.center,
                                   children: [
                                     Image.network(
-                                      "${_filteredBooks[index].fields.imageUrlM}",
+                                      _filteredBooks[index].fields.imageUrlM,
                                       height: 210,
                                       width: 140,
                                       fit: BoxFit.cover,

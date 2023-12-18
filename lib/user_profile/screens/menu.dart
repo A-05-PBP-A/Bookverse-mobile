@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/borrow_return/screens/return_integrate.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/screens/readed_books.dart';
 import 'package:bookverse_mobile/user_profile/screens/favorite_books.dart';
@@ -10,6 +11,7 @@ class UserPage extends StatelessWidget {
   UserPage({Key? key}) : super(key: key);
 
   final List<Functionality> functions = [
+    Functionality("My Borrowing", Icons.library_books),
     Functionality("Readed Books", Image.asset(
       'assets/images/bookLogo.png',
       width: 30,
@@ -129,7 +131,13 @@ class FunctionCard extends StatelessWidget {
       color: Colors.grey[800], // Background color of button/card
       child: InkWell(
         onTap: () async{
-          if (function.name == "Readed Books") {
+          if (function.name == "My Borrowing") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BorrowingPage()),
+            );
+          } 
+          else if (function.name == "Readed Books") {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ReadedBooks()),

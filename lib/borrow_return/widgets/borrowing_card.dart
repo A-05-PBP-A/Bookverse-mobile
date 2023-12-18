@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'dart:convert';
-import 'package:provider/provider.dart';
 import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 class BorrowingCard extends StatelessWidget {

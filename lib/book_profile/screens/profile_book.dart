@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:bookverse_mobile/user_profile/models/favorite_books_models.dart';
 import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
-
 int totalRating = 0;
 int totalReviews = 0;
 double averageRating = 0.0;
@@ -94,8 +93,6 @@ class _BookPageState extends State<BookPage> {
           averageRating = 0.0;
         }
 
-        // Memanggil setState untuk memperbarui UI
-        setState(() {});
       }
 
       Future<void> fetchFavBook(username) async {
@@ -142,8 +139,6 @@ class _BookPageState extends State<BookPage> {
     }
 
 
-  bool _isHovering = false;
-  bool _isHoveringSee = false;
   List<FavBook> listFavBook = []; //list buku favorit
 
 @override
@@ -157,7 +152,7 @@ class _BookPageState extends State<BookPage> {
           title: const Text('Detail Buku'),
         ),
         body: FutureBuilder(
-          future: fetchBook(),
+          future: Future.wait([fetchBook(), fetchReview()]), 
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return const Center(child: CircularProgressIndicator());
@@ -167,7 +162,7 @@ class _BookPageState extends State<BookPage> {
               return const Center(child: Text('Tidak ada data buku.'));
             } else {
               return ListView.builder(
-                itemCount: snapshot.data!.length,
+                itemCount: snapshot.data![0].length,
                 itemBuilder: (_, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -176,18 +171,18 @@ class _BookPageState extends State<BookPage> {
                     height: 500, 
                     child: Center(
                       child: Image.network(
-                        "${snapshot.data![index].fields.imageUrlL}",
+                        "${snapshot.data![0][index].fields.imageUrlL}",
                       ),
                     ),
                   ),
             const SizedBox(height: 20),
             Text(
-              '${snapshot.data![index].fields.title}', 
+              '${snapshot.data![0][index].fields.title}', 
               style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Text(
-              '${snapshot.data![index].fields.author}', 
+              '${snapshot.data![0][index].fields.author}', 
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 15),
@@ -197,18 +192,14 @@ class _BookPageState extends State<BookPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 MouseRegion(
-                  onEnter: (event) => setState(() => _isHovering = true),
-                  onExit: (event) => setState(() => _isHovering = false),
-                  child: Opacity(
-                    opacity: _isHovering ? 0.3 : 1.0,
                     child: InkWell(
                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ReviewPage(
-                              bookName: snapshot.data![index].fields.title,
-                              imageUrl: snapshot.data![index].fields.imageUrlL, 
+                              bookName: snapshot.data![0][index].fields.title,
+                              imageUrl: snapshot.data![0][index].fields.imageUrlL, 
                               bookId: widget.id,
                             ),
                           ),
@@ -244,7 +235,7 @@ class _BookPageState extends State<BookPage> {
                                 child: Icon(Icons.star, color: Colors.black, size: 15),
                               ),
                               TextSpan(
-                                text: ' | $totalReviews Ratings', // Ubah ke jumlah rating ini masih temp 
+                                text: ' | $totalReviews Ratings', 
                                 style: const TextStyle(fontSize: 13),
                               ),
                             ],
@@ -252,17 +243,16 @@ class _BookPageState extends State<BookPage> {
                         ),
                         ],
                       ),
-                    ),
-                  ),
+                    ),  
                 ),
                 IconButton(
                   
-                  icon: isBookFav(listFavBook, snapshot.data![index].fields.title)
+                  icon: isBookFav(listFavBook, snapshot.data![0][index].fields.title)
                       ? const Icon(Icons.favorite, color: Colors.red)
                       : const Icon(Icons.favorite_border),
                   onPressed: () async {
                     //add ke favorites
-                    if (isBookFav(listFavBook, snapshot.data![index].fields.title) == false){
+                    if (isBookFav(listFavBook, snapshot.data![0][index].fields.title) == false){
                       try {
                         final response = await request.postJson(
                           "http://127.0.0.1:8000/favorite-flutter/",
@@ -277,6 +267,8 @@ class _BookPageState extends State<BookPage> {
                               content: Text("Added To Favorites"),
                             ),
                           );
+                           // reload the page by calling setState
+                          setState(() {});
                         } else {
                           print('Failed to add to favorites. Status code: ${response.statusCode}');
                           // Handle the error accordingly.
@@ -289,10 +281,10 @@ class _BookPageState extends State<BookPage> {
 
                     //remove dari favorites
                     else{
-                      await deleteFavBook(snapshot.data![index].pk);
+                      await deleteFavBook(snapshot.data![0][index].pk);
                       // reload the page by calling setState
                       setState(() {
-                        listFavBook.removeWhere((book) => book.fields.bookTitle == snapshot.data![index].fields.title);
+                        listFavBook.removeWhere((book) => book.fields.bookTitle == snapshot.data![0][index].fields.title);
                       });
                     }
                   },
@@ -336,7 +328,7 @@ class _BookPageState extends State<BookPage> {
                 ),
                 
                 Text(
-                  '${snapshot.data![index].fields.publicationYear}', 
+                  '${snapshot.data![0][index].fields.publicationYear}', 
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -345,7 +337,7 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  '${snapshot.data![index].fields.publisher}', 
+                  '${snapshot.data![0][index].fields.publisher}', 
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
@@ -354,7 +346,7 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 Text(
-                  '${snapshot.data![index].fields.isbn}', 
+                  '${snapshot.data![0][index].fields.isbn}', 
                   style: const TextStyle(fontSize: 18),
                 ),
             const SizedBox(height: 15),
@@ -376,18 +368,14 @@ class _BookPageState extends State<BookPage> {
                   style: TextStyle(fontSize: 20),
                 ),
                 MouseRegion(
-                  onEnter: (event) => setState(() => _isHoveringSee = true),
-                  onExit: (event) => setState(() => _isHoveringSee = false),
-                  child: Opacity(
-                    opacity: _isHoveringSee ? 0.3 : 1.0,
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ReviewPage(
-                              bookName: snapshot.data![index].fields.title,
-                              imageUrl: snapshot.data![index].fields.imageUrlL, 
+                              bookName: snapshot.data![0][index].fields.title,
+                              imageUrl: snapshot.data![0][index].fields.imageUrlL, 
                               bookId: widget.id,
                             ),
                           ),
@@ -401,8 +389,7 @@ class _BookPageState extends State<BookPage> {
                            ),
                                 ],
                               ),
-                            ),
-                          ),
+                            ),   
                         ),
                       ],
                     ),

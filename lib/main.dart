@@ -57,7 +57,6 @@ class _MyNavBarState extends State<MyNavBar> {
   final List<Widget> _widgetOptions = <Widget>[
     const MyHomePage(),
     const BookFormPage(),
-    const BorrowingPage(),
     UserPage(),
   ];
 
@@ -85,10 +84,6 @@ class _MyNavBarState extends State<MyNavBar> {
             label: 'Borrow Book',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: 'Borrowing',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'User',
           ),
@@ -96,7 +91,7 @@ class _MyNavBarState extends State<MyNavBar> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );
