@@ -1,14 +1,22 @@
 import 'package:bookverse_mobile/auth/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
-import 'package:bookverse_mobile/borrow_return/screens/return.dart';
 import 'package:bookverse_mobile/user_profile/screens/menu.dart';
 import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+        Provider<CookieRequest>(create: (_) => CookieRequest()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -48,7 +56,6 @@ class _MyNavBarState extends State<MyNavBar> {
   final List<Widget> _widgetOptions = <Widget>[
     const MyHomePage(),
     const BookFormPage(),
-    const BorrowingPage(),
     UserPage(),
   ];
 
@@ -76,10 +83,6 @@ class _MyNavBarState extends State<MyNavBar> {
             label: 'Borrow Book',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: 'Borrowing',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'User',
           ),
@@ -87,7 +90,7 @@ class _MyNavBarState extends State<MyNavBar> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

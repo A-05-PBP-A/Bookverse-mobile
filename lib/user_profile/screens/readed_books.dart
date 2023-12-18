@@ -1,86 +1,90 @@
+import 'dart:convert';
+import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/models/books_history_models.dart';
-import 'package:bookverse_mobile/user_profile/models/favorite_books_models.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ReadedBooks extends StatefulWidget {
-  /*Tidak jadi pakai constructor ini karena sudah menggunakan models
-  final String? bookTitle;
-  final String? cover;
-
-  ReadedBooks({
-    this.bookTitle,
-    this.cover,
-  });
-  */
-  const ReadedBooks({super.key});
+  const ReadedBooks({Key? key}) : super(key: key);
 
   @override
   State<ReadedBooks> createState() => _ReadedBooksState();
 }
 
 class _ReadedBooksState extends State<ReadedBooks> {
-  /*Karena sudah menggunakan models fungsi ini tidak dibutuhkan lagi
-  @override
-  void initState() {
-    super.initState();
-    // Add the values to the lists when the constructor is called
-    if (widget.bookTitle != null) {
-      BooksHistoryModel.getReturnedBooks().add(widget.bookTitle!);
-    }
-    if (widget.cover != null) {
-      BooksHistoryModel.getReturnedBookCovers().add(widget.cover!);
-    }
+  Future<List<BooksHistoryModel>> fetchBook(username) async {
+    // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+    var url = Uri.parse(
+        'http://127.0.0.1:8000/book_history_flutter/$username/');
+    var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json"},
+    );
+    
+    var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+    List<BooksHistoryModel> books = [];
+      for (var d in data) {
+          if (d != null) {
+              books.add(BooksHistoryModel.fromJson(d));
+          }
+      }
+      return books;
   }
-  */
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    Future<List<BooksHistoryModel>> listReadedBook = fetchBook(userProvider.username);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Readed Books'),
       ),
       body: Center(
-        child: BooksHistoryModel.getReturnedBooks().isEmpty
-            ? const Text('No books you have borrowed yet')
-            : ListView.builder(
-                itemCount: BooksHistoryModel.getReturnedBooks().length,
+        child: FutureBuilder<List<BooksHistoryModel>>(
+          future: listReadedBook,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Show loading indicator while waiting for the future to complete
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              // Show an error message if the future encountered an error
+              return Text('Error: ${snapshot.error}');
+            } else if (snapshot.data!.isEmpty) {
+              // Show message when the list is empty
+              return const Text('No books you have read');
+            } else {
+              // Build the ListView when the data is available
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return BooksHistoryCard(
-                    bookTitle: BooksHistoryModel.getBookTitleByIndex(index),
-                    bookCover: BooksHistoryModel.getCoverByIndex(index),
+                    bookTitle: snapshot.data![index].fields.bookTitle,
+                    bookCover: snapshot.data![index].fields.imageUrlL,
                   );
                 },
-              ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
 }
 
-class BooksHistoryCard extends StatefulWidget {
+class BooksHistoryCard extends StatelessWidget {
   final String bookTitle;
   final String bookCover;
   final VoidCallback? onRemove;
 
-  const BooksHistoryCard({super.key, 
+  const BooksHistoryCard({
+    Key? key,
     required this.bookTitle,
     required this.bookCover,
     this.onRemove,
-  });
-
-  @override
-  State<BooksHistoryCard> createState() => _BooksHistoryCardState();
-}
-
-class _BooksHistoryCardState extends State<BooksHistoryCard> {
-  late bool isFavorite;
-
-  //untuk automatic refresh state favorite button jadi merah saat jadi favorite
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the isFavorite variable based on the current state
-    isFavorite = FavoritesBooksModels.isBookInFavorites(widget.bookTitle);
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,38 +98,21 @@ class _BooksHistoryCardState extends State<BooksHistoryCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.network(
-                  widget.bookCover,
-                  height: 200.0,
-                  width: 200.0,
-                  fit: BoxFit.cover,
+                Container(
+                  height: 300.0, // Set a fixed height for the image
+                  width: 200.0, // Set a fixed width for the image
+                  child: Image.network(
+                    bookCover,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 const Padding(padding: EdgeInsets.all(8)),
                 Expanded(
                   child: Text(
-                    widget.bookTitle,
+                    bookTitle,
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : null,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      if (isFavorite) {
-                        widget.onRemove?.call();
-                      } else {
-                        // Add to favorites
-                        FavoritesBooksModels.addToFavorites(
-                            widget.bookTitle, widget.bookCover);
-                      }
-                      // Toggle the isFavorite state
-                      isFavorite = !isFavorite;
-                    });
-                  },
                 ),
               ],
             ),
@@ -135,7 +122,3 @@ class _BooksHistoryCardState extends State<BooksHistoryCard> {
     );
   }
 }
-
-
-
-

@@ -1,39 +1,73 @@
+// To parse this JSON data, do
+//
+//     final booksHistoryModel = booksHistoryModelFromJson(jsonString);
+
+import 'dart:convert';
+
+List<BooksHistoryModel> booksHistoryModelFromJson(String str) => List<BooksHistoryModel>.from(json.decode(str).map((x) => BooksHistoryModel.fromJson(x)));
+
+String booksHistoryModelToJson(List<BooksHistoryModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class BooksHistoryModel {
-  // untuk Judul buku
-  static List<String> bookTitle = [];
-  // untuk cover buku
-  static List<String> cover = [];
+    String model;
+    int pk;
+    Fields fields;
 
-  static void returnBooks(String title, String bookCover){
-    bookTitle.add(title);
-    cover.add(bookCover);
-  }
+    BooksHistoryModel({
+        required this.model,
+        required this.pk,
+        required this.fields,
+    });
 
-  // Getter method for book title by index
-  static String getBookTitleByIndex(int index) {
-    if (index >= 0 && index < bookTitle.length) {
-      return bookTitle[index];
-    } else {
-      // Handle index out of bounds, return an empty string or throw an exception
-      return '';
-    }
-  }
+    factory BooksHistoryModel.fromJson(Map<String, dynamic> json) => BooksHistoryModel(
+        model: json["model"],
+        pk: json["pk"],
+        fields: Fields.fromJson(json["fields"]),
+    );
 
-  // Getter method for cover by index
-  static String getCoverByIndex(int index) {
-    if (index >= 0 && index < cover.length) {
-      return cover[index];
-    } else {
-      // Handle index out of bounds, return an empty string or throw an exception
-      return '';
-    }
-  }
+    Map<String, dynamic> toJson() => {
+        "model": model,
+        "pk": pk,
+        "fields": fields.toJson(),
+    };
+}
 
-  static List<String> getReturnedBooks() {
-    return bookTitle;
-  }
+class Fields {
+    int user;
+    int book;
+    dynamic booksHistory;
+    String bookTitle;
+    String imageUrlL;
+    int referenceId;
+    bool isReturned;
 
-  static List<String> getReturnedBookCovers() {
-    return cover;
-  }
+    Fields({
+        required this.user,
+        required this.book,
+        required this.booksHistory,
+        required this.bookTitle,
+        required this.imageUrlL,
+        required this.referenceId,
+        required this.isReturned,
+    });
+
+    factory Fields.fromJson(Map<String, dynamic> json) => Fields(
+        user: json["user"],
+        book: json["book"],
+        booksHistory: json["booksHistory"],
+        bookTitle: json["book_title"],
+        imageUrlL: json["image_url_l"],
+        referenceId: json["reference_id"],
+        isReturned: json["is_returned"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "user": user,
+        "book": book,
+        "booksHistory": booksHistory,
+        "book_title": bookTitle,
+        "image_url_l": imageUrlL,
+        "reference_id": referenceId,
+        "is_returned": isReturned,
+    };
 }
