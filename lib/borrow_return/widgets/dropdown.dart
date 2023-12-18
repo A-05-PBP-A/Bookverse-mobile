@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 
 class DropdownTitle extends StatefulWidget {
   final ValueChanged<String> onValueChanged;
-  const DropdownTitle({Key? key, required this.onValueChanged})
+  final String id;
+  const DropdownTitle({Key? key, required this.onValueChanged, this.id = "1"})
       : super(key: key);
 
   @override
@@ -41,7 +42,7 @@ class _DropdownTitleState extends State<DropdownTitle> {
       builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
         if (snapshot.hasData) {
           return DropdownMenu<String>(
-            initialSelection: snapshot.data!.first.pk.toString(),
+            initialSelection: widget.id,
             onSelected: (String? value) async {
               final response = await request.postJson(
                   'http://127.0.0.1:8000/get-book-cover/',

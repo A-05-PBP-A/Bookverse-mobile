@@ -6,15 +6,24 @@ import 'package:bookverse_mobile/borrow_return/models/book.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class BookFormPage extends StatefulWidget {
-  const BookFormPage({super.key});
+  final String id;
+  const BookFormPage({Key? key, this.id = "1"}) : super(key: key);
 
   @override
   State<BookFormPage> createState() => _BookFormPageState();
 }
 
 class _BookFormPageState extends State<BookFormPage> {
+  late String currentId = widget.id;
+  @override
+  void initState() {
+    super.initState();
+    currentId = widget.id; // Initialize currentBookId in initState
+  }
+
   // String baseUrl = "http://127.0.0.1:8000";
   String baseUrl = "http://10.0.2.2:8000";
   final _formKey = GlobalKey<FormState>();
@@ -28,6 +37,31 @@ class _BookFormPageState extends State<BookFormPage> {
       }
     }
     return allBooks;
+  }
+
+  Future<String> fetchUrl(String id) async {
+    // final response = await request.post(
+    //   // 'http://10.0.2.2:8000/get-book-cover/',
+    //   'http://127.0.0.1:8000/get-book-cover/',
+    //   jsonEncode(<String, String>{'id': '$widget.id'}),
+    // );
+    // print(response['url']);
+    // return response['url'];
+    final response =
+        await http.post(Uri.parse('http://127.0.0.1:8000/get-book-cover/'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{'id': id}));
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON.
+      var data = jsonDecode(response.body);
+      return data['url'];
+    } else {
+      // If the server did not return a 200 OK response, throw an exception.
+      throw Exception('Failed to load image URL');
+    }
   }
 
   String imageUrl =
@@ -57,8 +91,21 @@ class _BookFormPageState extends State<BookFormPage> {
                   child: Padding(
                       padding: const EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 30.0, bottom: 15.0),
-                      child: Image.network(replaceUrl(imageUrl),
-                          height: 250, width: 200))),
+                      child: FutureBuilder<String>(
+                        future: fetchUrl(currentId),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return Image.network(replaceUrl(snapshot.data!),
+                                height: 250, width: 200);
+                          }
+                        },
+                      ))),
               const Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -75,14 +122,16 @@ class _BookFormPageState extends State<BookFormPage> {
                       padding: const EdgeInsets.only(
                           left: 30.0, right: 30.0, top: 0.0, bottom: 15.0),
                       child: DropdownTitle(
+                        id: widget.id,
                         onValueChanged: (value) async {
-                          final response = await request.postJson(
-                              // 'http://10.0.2.2:8000/get-book-cover/',
-                              'http://127.0.0.1:8000/get-book-cover/',
-                              jsonEncode(
-                                  <String, String>{'id': value.toString()}));
+                          // final response = await request.postJson(
+                          //     // 'http://10.0.2.2:8000/get-book-cover/',
+                          //     'http://127.0.0.1:8000/get-book-cover/',
+                          //     jsonEncode(
+                          //         <String, String>{'id': value.toString()}));
                           setState(() {
-                            imageUrl = response['url'];
+                            currentId = value;
+                            //imageUrl = response['url'];
                             _book = value;
                           });
                         },
