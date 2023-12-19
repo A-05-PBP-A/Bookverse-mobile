@@ -22,14 +22,14 @@ class AdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin Profile Page'),
+        title: const Text('Admin Profile Page'),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -51,7 +51,7 @@ class AdminPage extends StatelessWidget {
                     child: Container(
                       width: 60,
                       height: 60,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
@@ -64,7 +64,7 @@ class AdminPage extends StatelessWidget {
                     child: Container(
                       width: 96,
                       height: 55,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(15),
                           bottomRight: Radius.circular(15),
@@ -75,15 +75,15 @@ class AdminPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'BookVerse Admin Page',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -92,19 +92,19 @@ class AdminPage extends StatelessWidget {
                     color: Colors.purple.shade50,
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     color: Colors.purple.shade50,
                     child: _buildInfoBox('Review', '-'),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     color: Colors.purple.shade50,
                     child: _buildInfoBox('Users', ''),
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -116,12 +116,12 @@ class AdminPage extends StatelessWidget {
   Widget _buildInfoBox(String label, String content) {
     return Container(
       width: 450,
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
         border: Border.all(
       color: Colors.grey,
-      width: 2.0, // Set the border width to make it thicker
+      width: 2.0,
     ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -130,71 +130,71 @@ class AdminPage extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           content == '-'
             ? Table(
-                border: TableBorder.all(color: Color.fromARGB(255, 237, 174, 247)),
+                border: TableBorder.all(color: const Color.fromARGB(255, 237, 174, 247)),
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
                   TableRow(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1),
-                        child: Text('User', textAlign: TextAlign.center),
+                        child: const Text('User', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1),
-                        child: Text('Book', textAlign: TextAlign.center),
+                        child: const Text('Book', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1),
-                        child: Text('Rating', textAlign: TextAlign.center),
+                        child: const Text('Rating', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1),
-                        child: Text('Review', textAlign: TextAlign.center),
+                        child: const Text('Review', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1),
-                        child: Text('Delete', textAlign: TextAlign.center),
+                        child: const Text('Delete', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
                   TableRow(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
+                        child: const Text('-', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
@@ -203,7 +203,7 @@ class AdminPage extends StatelessWidget {
             : Text(
                 content,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
           Text(content),
         ],
@@ -215,8 +215,8 @@ class AdminPage extends StatelessWidget {
 Widget _buildInfoBoxWithButton(BuildContext context, String label) {
   return Container(
     width: 300,
-    padding: EdgeInsets.all(10),
-    margin: EdgeInsets.symmetric(vertical: 5),
+    padding: const EdgeInsets.all(10),
+    margin: const EdgeInsets.symmetric(vertical: 5),
     decoration: BoxDecoration(
       border: Border.all(
       color: Colors.grey,
@@ -229,11 +229,11 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -241,9 +241,9 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
               MaterialPageRoute(builder: (context) => FormInputPage()),
             );
           },
-          child: Text('Add Book'),
+          child: const Text('Add Book'),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
@@ -251,7 +251,7 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
               MaterialPageRoute(builder: (context) => DeleteBookScreen()),
             );
           },
-          child: Text('Delete Book'),
+          child: const Text('Delete Book'),
         ),
       ],
     ),
