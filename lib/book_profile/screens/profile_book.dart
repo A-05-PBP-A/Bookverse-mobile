@@ -190,7 +190,7 @@ class _BookPageState extends State<BookPage> {
                           ),
                           const SizedBox(height: 15),
                           Container(
-                            width: 390,
+                            width: 365,
                             padding: const EdgeInsets.symmetric(horizontal: 20), 
                             child: ConstrainedBox(
                               constraints: BoxConstraints(maxWidth: 400), 
