@@ -6,7 +6,6 @@ import 'package:bookverse_mobile/bookList/screens/landing_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:bookverse_mobile/user_profile/models/user_model.dart';
-import 'package:bookverse_mobile/admin/screens/overseer_page.dart';
 
 void main() {
   runApp(
@@ -56,7 +55,6 @@ class _MyNavBarState extends State<MyNavBar> {
     const MyHomePage(),
     const BookFormPage(),
     UserPage(),
-    const AdminPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -85,10 +83,6 @@ class _MyNavBarState extends State<MyNavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'User',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.build_circle_sharp),
-            label: 'Admin',
           ),
         ],
         currentIndex: _selectedIndex,
