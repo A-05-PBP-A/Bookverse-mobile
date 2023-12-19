@@ -1,4 +1,4 @@
-import 'package:bookverse_mobile/auth/screens/login.dart';
+import 'package:bookverse_mobile/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
 import 'package:bookverse_mobile/user_profile/screens/menu.dart';
@@ -31,14 +31,12 @@ class MyApp extends StatelessWidget {
             },
             child: MaterialApp(
                 title: 'Bookverse',
+                debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
                     useMaterial3: true,
                 ),
-                 home: const LoginPage(),
-                routes: {
-                      "/login": (BuildContext context) => const LoginPage(),
-                  },
+                 home: const WelcomePage(),
                 ),
             );
     }
