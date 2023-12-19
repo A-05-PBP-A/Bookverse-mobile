@@ -47,4 +47,6 @@ class UserProvider extends ChangeNotifier {
   String get username => _user?.username ?? '';
   String get bio => _profileDetails?.bio ?? '';
   String get image => _profileDetails?.image ?? '';
+
+  bool get isLoggedIn => _user != null;
 }
