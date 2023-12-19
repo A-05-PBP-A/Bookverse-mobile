@@ -133,6 +133,7 @@ class BorrowingPageState extends State<BorrowingPage> {
                         );
                       } else {
                         return GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(
                               top: 10, bottom: 10, left: 10, right: 10),
                           shrinkWrap: true,
