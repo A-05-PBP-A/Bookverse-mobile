@@ -48,6 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Library'),
+        backgroundColor: Color.fromARGB(255, 96, 41, 98), 
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(14.0),

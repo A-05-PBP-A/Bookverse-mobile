@@ -61,7 +61,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.0),
                     side: BorderSide(color: Colors.black, width: 0.5),
-                  ), backgroundColor: Colors.blue,
+                  ), backgroundColor: Color(0xFF462E79),
                   padding: EdgeInsets.symmetric(vertical: 25.0),
                 ),
                 child: Text(
@@ -87,7 +87,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.0), 
                     side: BorderSide(color: Colors.black, width: 0.5),
-                  ), backgroundColor: Colors.red, 
+                  ), backgroundColor: Color.fromARGB(255, 51, 0, 80), 
                   padding:  EdgeInsets.symmetric(vertical: 25.0),
                 ),
                 child: Text(

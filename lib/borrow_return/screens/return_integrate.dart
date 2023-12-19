@@ -52,8 +52,8 @@ class BorrowingPageState extends State<BorrowingPage> {
     return Scaffold(
       appBar: AppBar(
           title: const Text('My Borrowing(s)'),
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
+          backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        foregroundColor: Colors.white,
       ),
       body: Column(
         children: [

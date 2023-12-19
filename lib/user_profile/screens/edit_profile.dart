@@ -24,6 +24,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
+        backgroundColor: Color.fromARGB(255, 27, 66, 192),
+        foregroundColor: Colors.white,
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16,top: 25, right: 16),
