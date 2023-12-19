@@ -57,6 +57,8 @@ Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
       title: const Text('Review'),
+      backgroundColor: Color.fromARGB(255, 95, 61, 168),
+      foregroundColor: Colors.white,
     ),
     body: SingleChildScrollView(
       child: Column(

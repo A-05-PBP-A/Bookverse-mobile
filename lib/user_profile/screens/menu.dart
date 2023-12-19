@@ -32,10 +32,9 @@ class UserPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Bookverse',
-          style: TextStyle(
-            color: Colors.black,
-          ),
         ),
+        backgroundColor: Color.fromARGB(255, 1, 0, 68),
+        foregroundColor: Colors.white,
       ),
       body: Builder(
         builder: (context) {

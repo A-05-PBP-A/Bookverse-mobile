@@ -57,6 +57,8 @@ class _FavoriteBooksState extends State<FavoriteBooks> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorite Books'),
+        backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        foregroundColor: Colors.white,
       ),
       body: Center(
         child: FutureBuilder<List<FavBook>>(

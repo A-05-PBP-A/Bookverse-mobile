@@ -42,6 +42,8 @@ class _ReadedBooksState extends State<ReadedBooks> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Readed Books'),
+        backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        foregroundColor: Colors.white,
       ),
       body: Center(
         child: FutureBuilder<List<BooksHistoryModel>>(

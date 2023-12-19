@@ -148,6 +148,8 @@ class _BookPageState extends State<BookPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Details'),
+        backgroundColor: Color.fromARGB(255, 95, 61, 168),
+        foregroundColor: Colors.white,
       ),
       body: FutureBuilder(
         future: Future.wait([fetchBook(), fetchReview()]),
