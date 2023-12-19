@@ -173,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.0), 
                     side: BorderSide(color: Colors.black, width: 0.5),
-                  ), backgroundColor: Colors.red, 
+                  ), backgroundColor: Color.fromARGB(255, 51, 0, 80), 
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                 ),
                 child: const Text(

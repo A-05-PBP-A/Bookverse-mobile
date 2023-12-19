@@ -1,4 +1,73 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+class Book {
+  final String isbn;
+  final String title;
+  final String author;
+  final int publicationYear;
+  final String publisher;
+  final String imageUrlS;
+  final String imageUrlM;
+  final String imageUrlL;
+
+  Book({
+    required this.isbn,
+    required this.title,
+    required this.author,
+    required this.publicationYear,
+    required this.publisher,
+    required this.imageUrlS,
+    required this.imageUrlM,
+    required this.imageUrlL,
+  });
+
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book(
+      isbn: json['isbn'],
+      title: json['title'],
+      author: json['author'],
+      publicationYear: json['publication_year'],
+      publisher: json['publisher'],
+      imageUrlS: json['image_url_s'],
+      imageUrlM: json['image_url_m'],
+      imageUrlL: json['image_url_l'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'isbn': isbn,
+      'title': title,
+      'author': author,
+      'publication_year': publicationYear,
+      'publisher': publisher,
+      'image_url_s': imageUrlS,
+      'image_url_m': imageUrlM,
+      'image_url_l': imageUrlL,
+    };
+  }
+}
+
+Future<void> addBook(Book book) async {
+  final Uri url = Uri.parse('http://bookverse-a05-tk.pbp.cs.ui.ac.id/add_book/');
+  final Map<String, String> headers = {"Content-Type": "application/json"};
+
+  final response = await http.post(
+    url,
+    headers: headers,
+    body: json.encode(book.toJson()),
+  );
+
+  if (response.statusCode == 200) {
+    // Book added successfully
+    print('Book added successfully');
+  } else {
+    // Handle error
+    print('Failed to add book. Status code: ${response.statusCode}');
+  }
+}
 
 class FormInputPage extends StatelessWidget {
   const FormInputPage({super.key});
@@ -10,11 +79,9 @@ class FormInputPage extends StatelessWidget {
         title: const Text('Book Input Form'),
       ),
       body: SingleChildScrollView(
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Container(
-            width: 300,
-            height: 660,
-            padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: Colors.blueGrey.shade50,
               border: Border.all(color: Colors.grey),
@@ -37,7 +104,7 @@ class FormInputPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Handle submit logic (masih harus di integrasi)
+                        //submit logic
                       },
                       child: const Text('Submit'),
                     ),

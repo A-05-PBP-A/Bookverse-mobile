@@ -71,7 +71,7 @@ class _BookFormPageState extends State<BookFormPage> {
               'Book Loan Form',
             ),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: Color.fromARGB(255, 96, 41, 98),
           foregroundColor: Colors.white,
         ),
         //drawer: const LeftDrawer(),
@@ -129,7 +129,7 @@ class _BookFormPageState extends State<BookFormPage> {
                   padding: const EdgeInsets.all(30.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                      backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 1, 0, 68)),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
