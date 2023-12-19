@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/admin/screens/delete_book.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/admin/screens/book_inputform.dart';
 
@@ -15,6 +16,8 @@ class ProfileApp extends StatelessWidget {
 }
 
 class AdminPage extends StatelessWidget {
+  const AdminPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,14 +75,6 @@ class AdminPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Text(
-                'Irvan.Rizqy', //Username
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               SizedBox(height: 10),
               Text(
                 'BookVerse Admin Page',
@@ -98,23 +93,18 @@ class AdminPage extends StatelessWidget {
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
                   SizedBox(height: 10),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 20,
-                    children: [
-                      Container(
-                        color: Colors.purple.shade50,
-                        child: _buildInfoBox('Review', '-'),
-                      ),
-                      Container(
-                        color: Colors.purple.shade50,
-                        child: _buildInfoBox('Users', ''),
-                      ),
-                    ],
+                  Container(
+                    color: Colors.purple.shade50,
+                    child: _buildInfoBox('Review', '-'),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 10),
+                  Container(
+                    color: Colors.purple.shade50,
+                    child: _buildInfoBox('Users', ''),
+                  ),
                 ],
               ),
+              SizedBox(height: 30),
             ],
           ),
         ),
@@ -147,25 +137,35 @@ class AdminPage extends StatelessWidget {
           SizedBox(height: 5),
           content == '-'
             ? Table(
-                border: TableBorder.all(color: Color.fromARGB(255, 237, 174, 247)), // Change border color to light purple
+                border: TableBorder.all(color: Color.fromARGB(255, 237, 174, 247)),
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
                   TableRow(
                     children: [
                       Container(
                         padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('Column 1', textAlign: TextAlign.center),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: Text('User', textAlign: TextAlign.center),
                       ),
                       Container(
                         padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('Column 2', textAlign: TextAlign.center),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: Text('Book', textAlign: TextAlign.center),
                       ),
                       Container(
                         padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('Column 3', textAlign: TextAlign.center),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: Text('Rating', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: Text('Review', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: Text('Delete', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
@@ -181,53 +181,6 @@ class AdminPage extends StatelessWidget {
                         color: Colors.purple.withOpacity(0.1), // Light purple background
                         child: Text('-', textAlign: TextAlign.center),
                       ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
                       Container(
                         padding: EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
@@ -267,7 +220,7 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
     decoration: BoxDecoration(
       border: Border.all(
       color: Colors.grey,
-      width: 2.0, // Set the border width to make it thicker
+      width: 2.0,
     ),
       borderRadius: BorderRadius.circular(8),
     ),
@@ -289,6 +242,16 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
             );
           },
           child: Text('Add Book'),
+        ),
+        SizedBox(height: 10),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DeleteBookScreen()),
+            );
+          },
+          child: Text('Delete Book'),
         ),
       ],
     ),

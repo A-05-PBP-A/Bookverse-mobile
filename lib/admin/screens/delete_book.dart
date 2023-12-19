@@ -21,7 +21,7 @@ class _DeleteBookScreenState extends State<DeleteBookScreen> {
   }
 
   Future<void> fetchBooks() async {
-    final Uri url = Uri.parse('http://127.0.0.1:8000/get-books/'); // Replace with your actual API endpoint
+    final Uri url = Uri.parse('http://bookverse-a05-tk.pbp.cs.ui.ac.id/get-books/');
     final Map<String, String> headers = {"Content-Type": "application/json"};
 
     try {

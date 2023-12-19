@@ -51,7 +51,7 @@ class Book {
 }
 
 Future<void> addBook(Book book) async {
-  final Uri url = Uri.parse('http://127.0.0.1:8000/add_book/');
+  final Uri url = Uri.parse('http://bookverse-a05-tk.pbp.cs.ui.ac.id/add_book/');
   final Map<String, String> headers = {"Content-Type": "application/json"};
 
   final response = await http.post(
@@ -104,7 +104,7 @@ class FormInputPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Handle submit logic (masih harus di integrasi)
+                        //submit logic
                       },
                       child: const Text('Submit'),
                     ),
