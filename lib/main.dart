@@ -22,6 +22,15 @@ void main() {
 class MyApp extends StatelessWidget {
     const MyApp({Key? key}) : super(key: key);
 
+     Widget buildHome(BuildContext context) {
+        final userProvider = Provider.of<UserProvider>(context);
+        if (userProvider.isLoggedIn) {
+            return const MyHomePage();
+        } else {
+            return const WelcomePage();
+        }
+    }
+
     @override
     Widget build(BuildContext context) {
         return Provider(
@@ -36,7 +45,7 @@ class MyApp extends StatelessWidget {
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
                     useMaterial3: true,
                 ),
-                 home: const WelcomePage(),
+                 home: buildHome(context),
                 ),
             );
     }
