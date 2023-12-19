@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -135,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       CrossAxisAlignment.center,
                                   children: [
                                     Image.network(
-                                      _filteredBooks[index].fields.imageUrlM,
+                                      replaceUrl(_filteredBooks[index].fields.imageUrlM),
                                       height: 210,
                                       width: 140,
                                       fit: BoxFit.cover,

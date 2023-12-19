@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bookverse_mobile/book_profile/models/review.dart';
 import 'package:bookverse_mobile/book_profile/screens/review_page.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +173,7 @@ class _BookPageState extends State<BookPage> {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.0), 
                                 child: Image.network(
-                                  "${snapshot.data![0][index].fields.imageUrlL}",
+                                  replaceUrl("${snapshot.data![0][index].fields.imageUrlL}"),
                                 ),
                               ),
                             ),
@@ -190,7 +191,7 @@ class _BookPageState extends State<BookPage> {
                           ),
                           const SizedBox(height: 15),
                           Container(
-                            width: 390,
+                            width: 365,
                             padding: const EdgeInsets.symmetric(horizontal: 20), 
                             child: ConstrainedBox(
                               constraints: BoxConstraints(maxWidth: 400), 
