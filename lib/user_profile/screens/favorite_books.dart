@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/models/favorite_books_models.dart';
@@ -120,7 +121,7 @@ class BooksHistoryCard extends StatelessWidget {
                   height: 300.0, // Set a fixed height for the image
                   width: 200.0, // Set a fixed width for the image
                   child: Image.network(
-                    bookCover,
+                    replaceUrl(bookCover),
                     fit: BoxFit.cover,
                   ),
                 ),

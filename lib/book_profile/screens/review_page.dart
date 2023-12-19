@@ -1,5 +1,6 @@
 import 'package:bookverse_mobile/book_profile/models/review.dart';
 import 'package:bookverse_mobile/book_profile/screens/profile_book.dart';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -64,7 +65,7 @@ Widget build(BuildContext context) {
       children: [
         Center(
           child: Image.network(
-            widget.imageUrl,
+            replaceUrl(widget.imageUrl),
             width: 200,
             height: 300,
             fit: BoxFit.cover,
