@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-///import 'package:flutter/scheduler.dart';
 import 'package:bookverse_mobile/borrow_return/widgets/dropdown.dart';
 import 'package:bookverse_mobile/borrow_return/screens/return_integrate.dart';
 import 'package:bookverse_mobile/borrow_return/models/book.dart';
@@ -166,7 +164,6 @@ class _BookFormPageState extends State<BookFormPage> {
                                   TextButton(
                                       child: const Text('Yes'),
                                       onPressed: () async {
-                                        Navigator.pop(context);
                                         if (_formKey.currentState!.validate()) {
                                           final response =
                                               await request.postJson(
@@ -178,53 +175,32 @@ class _BookFormPageState extends State<BookFormPage> {
 
                                           if (response['status'] == 'success') {
                                             // ignore: use_build_context_synchronously
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: const Text(
-                                                      'Enjoy your book :)'),
-                                                  content: const Text(
-                                                      "You successfully borrowed the book!"),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: const Text('OK'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  const BorrowingPage()),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    "You successfully borrowed the book!"),
+                                              ),
                                             );
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.pop(context);
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const BorrowingPage()));
                                           } else {
                                             String note = response["message"];
                                             // ignore: use_build_context_synchronously
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: const Text('Error'),
-                                                  content: Text(note),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: const Text('OK'),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(note),
+                                              ),
                                             );
+                                            // ignore: use_build_context_synchronously
+                                            Navigator.pop(context);
                                           }
                                         }
                                       }),

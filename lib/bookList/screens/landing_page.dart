@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Library'),
-        backgroundColor: Color.fromARGB(255, 96, 41, 98), 
+        backgroundColor: Color.fromARGB(255, 96, 41, 98),
         foregroundColor: Colors.white,
       ),
       body: Padding(
@@ -84,8 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Text(
                           "Tidak ada data buku.",
-                          style: TextStyle(
-                              color: Color(0xff59A5D8), fontSize: 20),
+                          style:
+                              TextStyle(color: Color(0xff59A5D8), fontSize: 20),
                         ),
                         SizedBox(height: 8),
                       ],
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height),
+                            (MediaQuery.of(context).size.height),
                         crossAxisCount: 2,
                         crossAxisSpacing: 16.0,
                         mainAxisSpacing: 12.0,
@@ -121,66 +121,67 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
-                              border: Border.all(
-                                color: Colors.grey, // Add border color if needed
-                                width: 1.0, // Add border width if needed
-                              ),
-                            ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                  children: [
-                                    Image.network(
-                                      replaceUrl(_filteredBooks[index].fields.imageUrlM),
-                                      height: 210,
-                                      width: 140,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    const SizedBox(height: 6),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                "${_filteredBooks[index].fields.title}\n",
-                                            style: const TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const TextSpan(
-                                            text: "\n",
-                                          ),
-                                        ],
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      _filteredBooks[index].fields.author,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      "${_filteredBooks[index].fields.publicationYear}",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                15.0), // Adjust the radius as needed
+                            border: Border.all(
+                              color: Colors.grey, // Add border color if needed
+                              width: 1.0, // Add border width if needed
                             ),
                           ),
-          );
+                          child: Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.network(
+                                  replaceUrl(
+                                      _filteredBooks[index].fields.imageUrlM),
+                                  height: 210,
+                                  width: 140,
+                                  fit: BoxFit.cover,
+                                ),
+                                const SizedBox(height: 6),
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            "${_filteredBooks[index].fields.title}\n",
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const TextSpan(
+                                        text: "\n",
+                                      ),
+                                    ],
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  _filteredBooks[index].fields.author,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "${_filteredBooks[index].fields.publicationYear}",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   }
                 },
               ),
@@ -191,5 +192,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
