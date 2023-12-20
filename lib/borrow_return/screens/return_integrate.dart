@@ -51,8 +51,8 @@ class BorrowingPageState extends State<BorrowingPage> {
     final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
-          title: const Text('My Borrowing(s)'),
-          backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        title: const Text('My Borrowing(s)'),
+        backgroundColor: const Color.fromARGB(255, 43, 43, 167),
         foregroundColor: Colors.white,
       ),
       body: Column(
@@ -117,6 +117,7 @@ class BorrowingPageState extends State<BorrowingPage> {
                         );
                       } else {
                         return GridView.builder(
+                          //physics: const NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(
                               top: 10, bottom: 10, left: 10, right: 10),
                           shrinkWrap: true,

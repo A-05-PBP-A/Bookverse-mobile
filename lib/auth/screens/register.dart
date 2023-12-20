@@ -15,12 +15,14 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _obscureConfirmPassword = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -58,7 +60,8 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: _usernameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               ),
             ),
             const SizedBox(height: 12.0),
@@ -77,7 +80,8 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: _passwordController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword ? Icons.visibility : Icons.visibility_off,
@@ -108,10 +112,13 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: _confirmPasswordController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                    _obscureConfirmPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                     color: Colors.grey,
                   ),
                   onPressed: () {
@@ -137,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     {
                       'username': username,
                       'password': password,
-                      'confirm_password' : confirmPassword,
+                      'confirm_password': confirmPassword,
                     },
                   );
 
@@ -146,7 +153,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
                     );
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
@@ -171,9 +179,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40.0), 
+                    borderRadius: BorderRadius.circular(40.0),
                     side: BorderSide(color: Colors.black, width: 0.5),
-                  ), backgroundColor: Color.fromARGB(255, 51, 0, 80), 
+                  ),
+                  backgroundColor: Color.fromARGB(255, 51, 0, 80),
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                 ),
                 child: const Text(
@@ -181,7 +190,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
-                    fontWeight: FontWeight.bold,), 
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -195,9 +205,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 InkWell(
                   onTap: () {
                     // Navigate to Login
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
                     );
                   },
                   child: Text(
