@@ -1,3 +1,4 @@
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,7 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Book> _filteredBooks = [];
 
   Future<List<Book>> fetchProduct() async {
-    var url = Uri.parse('http://127.0.0.1:8000/get-books/');
+    var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get-books/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -47,6 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Library'),
+        backgroundColor: Color.fromARGB(255, 96, 41, 98), 
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(14.0),
@@ -135,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       CrossAxisAlignment.center,
                                   children: [
                                     Image.network(
-                                      _filteredBooks[index].fields.imageUrlM,
+                                      replaceUrl(_filteredBooks[index].fields.imageUrlM),
                                       height: 210,
                                       width: 140,
                                       fit: BoxFit.cover,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/models/favorite_books_models.dart';
@@ -16,7 +17,7 @@ class _FavoriteBooksState extends State<FavoriteBooks> {
   Future<List<FavBook>> fetchBook(username) async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
-        'http://127.0.0.1:8000/book_favorite_flutter/$username/');
+        'https://bookverse-a05-tk.pbp.cs.ui.ac.id/book_favorite_flutter/$username/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -34,7 +35,7 @@ class _FavoriteBooksState extends State<FavoriteBooks> {
   }
 
   Future<void> deleteFavBook(int bookId) async {
-    final url = 'http://127.0.0.1:8000/delete_bookFav/$bookId/';
+    final url = 'https://bookverse-a05-tk.pbp.cs.ui.ac.id/delete_bookFav/$bookId/';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -56,6 +57,8 @@ class _FavoriteBooksState extends State<FavoriteBooks> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorite Books'),
+        backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        foregroundColor: Colors.white,
       ),
       body: Center(
         child: FutureBuilder<List<FavBook>>(
@@ -120,7 +123,7 @@ class BooksHistoryCard extends StatelessWidget {
                   height: 300.0, // Set a fixed height for the image
                   width: 200.0, // Set a fixed width for the image
                   child: Image.network(
-                    bookCover,
+                    replaceUrl(bookCover),
                     fit: BoxFit.cover,
                   ),
                 ),

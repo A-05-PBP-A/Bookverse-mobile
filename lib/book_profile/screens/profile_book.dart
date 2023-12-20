@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bookverse_mobile/book_profile/models/review.dart';
 import 'package:bookverse_mobile/book_profile/screens/review_page.dart';
 import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookverse_mobile/book_profile/models/book.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class BookPage extends StatefulWidget {
 class _BookPageState extends State<BookPage> {
   Future<List<Book>> fetchBook() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-    var url = Uri.parse('http://127.0.0.1:8000/api/${widget.id}/');
+    var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/api/${widget.id}/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -45,7 +46,7 @@ class _BookPageState extends State<BookPage> {
 
   Future<List<Review>> fetchReview() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-    var url = Uri.parse('http://127.0.0.1:8000/get_review_json/${widget.id}/');
+    var url = Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get_review_json/${widget.id}/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -96,7 +97,7 @@ class _BookPageState extends State<BookPage> {
   Future<void> fetchFavBook(username) async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url =
-        Uri.parse('http://127.0.0.1:8000/book_favorite_flutter/$username/');
+        Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/book_favorite_flutter/$username/');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -117,7 +118,7 @@ class _BookPageState extends State<BookPage> {
   }
 
   Future<void> deleteFavBook(int bookId) async {
-    final url = 'http://127.0.0.1:8000/delete_bookFav/$bookId/';
+    final url = 'https://bookverse-a05-tk.pbp.cs.ui.ac.id/delete_bookFav/$bookId/';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -146,7 +147,9 @@ class _BookPageState extends State<BookPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Buku'),
+        title: const Text('Book Details'),
+        backgroundColor: Color.fromARGB(255, 95, 61, 168),
+        foregroundColor: Colors.white,
       ),
       body: FutureBuilder(
         future: Future.wait([fetchBook(), fetchReview()]),
@@ -169,8 +172,11 @@ class _BookPageState extends State<BookPage> {
                           SizedBox(
                             height: 500,
                             child: Center(
-                              child: Image.network(
-                                "${snapshot.data![0][index].fields.imageUrlL}",
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                                child: Image.network(
+                                  replaceUrl("${snapshot.data![0][index].fields.imageUrlL}"),
+                                ),
                               ),
                             ),
                           ),
@@ -186,83 +192,71 @@ class _BookPageState extends State<BookPage> {
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 15),
-                          SizedBox(
-                            width: 600,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                MouseRegion(
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ReviewPage(
-                                            bookName: snapshot
-                                                .data![0][index].fields.title,
-                                            imageUrl: snapshot.data![0][index]
-                                                .fields.imageUrlL,
-                                            bookId: widget.id,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: List.generate(
-                                            averageRating
-                                                .round(), // Ubah dengan average ini masih temp
-                                            (index) => const Icon(Icons.star,
-                                                color: Colors.orange,
-                                                size: 22.0),
-                                          )..addAll(
-                                              List.generate(
-                                                5 -
-                                                    averageRating
-                                                        .round(), // Ubah dengan average ini masih temp
-                                                (index) => const Icon(
-                                                    Icons.star,
-                                                    color: Colors.grey,
-                                                    size: 22.0),
-                                              ),
+                          Container(
+                            width: 365,
+                            padding: const EdgeInsets.symmetric(horizontal: 20), 
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 400), 
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  MouseRegion(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ReviewPage(
+                                              bookName: snapshot.data![0][index].fields.title,
+                                              imageUrl: snapshot.data![0][index].fields.imageUrlL,
+                                              bookId: widget.id,
                                             ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: DefaultTextStyle.of(context)
-                                                .style,
-                                            children: [
-                                              TextSpan(
-                                                text: averageRating.toStringAsFixed(
-                                                    1), // Ubah dengan average ini masih temp
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const WidgetSpan(
-                                                child: SizedBox(width: 4),
-                                              ),
-                                              const WidgetSpan(
-                                                child: Icon(Icons.star,
-                                                    color: Colors.black,
-                                                    size: 15),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    ' | $totalReviews Ratings',
-                                                style: const TextStyle(
-                                                    fontSize: 13),
-                                              ),
-                                            ],
                                           ),
-                                        ),
-                                      ],
+                                        );
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: List.generate(
+                                              averageRating.round(),
+                                              (index) => const Icon(Icons.star,
+                                                  color: Colors.orange, size: 22.0),
+                                            )..addAll(
+                                                List.generate(
+                                                  5 - averageRating.round(),
+                                                  (index) => const Icon(Icons.star,
+                                                      color: Colors.grey, size: 22.0),
+                                                ),
+                                              ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          RichText(
+                                            text: TextSpan(
+                                              style: DefaultTextStyle.of(context).style,
+                                              children: [
+                                                TextSpan(
+                                                  text: averageRating.toStringAsFixed(1),
+                                                  style: const TextStyle(
+                                                      fontSize: 13, fontWeight: FontWeight.bold),
+                                                ),
+                                                const WidgetSpan(
+                                                  child: SizedBox(width: 4),
+                                                ),
+                                                const WidgetSpan(
+                                                  child: Icon(Icons.star, color: Colors.black, size: 15),
+                                                ),
+                                                TextSpan(
+                                                  text: ' | $totalReviews Ratings',
+                                                  style: const TextStyle(fontSize: 13),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                
                                 IconButton(
                                   icon: isBookFav(listFavBook,
                                           snapshot.data![0][index].fields.title)
@@ -278,7 +272,7 @@ class _BookPageState extends State<BookPage> {
                                         false) {
                                       try {
                                         final response = await request.postJson(
-                                          "http://127.0.0.1:8000/favorite-flutter/",
+                                          "https://bookverse-a05-tk.pbp.cs.ui.ac.id/favorite-flutter/",
                                           jsonEncode(<String, int>{
                                             'bookId': widget.id,
                                           }),
@@ -317,45 +311,50 @@ class _BookPageState extends State<BookPage> {
                                                 .data![0][index].fields.title);
                                       });
                                     }
-                                  },
-                                )
-                              ],
+                                   },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 15),
                           SizedBox(
                             width: 400,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Redirect ke page pinjam buku
-                                Navigator.push(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0), 
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Redirect ke page pinjam buku
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BookFormPage(
-                                            id: snapshot.data![0][index].pk
-                                                .toString())));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.black,
-                                backgroundColor: Colors.white,
-                                shape: const StadiumBorder(),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                side: const BorderSide(color: Colors.black),
-                              ),
-                              child: const Text(
-                                'Pinjam',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                      builder: (context) => BookFormPage(
+                                        id: snapshot.data![0][index].pk.toString(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.white,
+                                  shape: const StadiumBorder(),
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                                  side: const BorderSide(color: Colors.black),
+                                ),
+                                child: const Text(
+                                  'Borrow',
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(height: 15),
                           const SizedBox(
-                            width: 400,
-                            child: Divider(
-                              color: Colors.black,
-                              thickness: 0.5,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                              child: Divider(
+                                color: Colors.black,
+                                thickness: 0.5,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -387,21 +386,25 @@ class _BookPageState extends State<BookPage> {
                           ),
                           const SizedBox(height: 15),
                           const SizedBox(
-                            width: 400,
-                            child: Divider(
-                              color: Colors.black,
-                              thickness: 0.5,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0), 
+                              child: Divider(
+                                color: Colors.black,
+                                thickness: 0.5,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
-                            width: 600,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  'User Review',
-                                  style: TextStyle(fontSize: 20),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: const Text(
+                                    'User Review',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                 ),
                                 MouseRegion(
                                   child: InkWell(
@@ -410,10 +413,8 @@ class _BookPageState extends State<BookPage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => ReviewPage(
-                                            bookName: snapshot
-                                                .data![0][index].fields.title,
-                                            imageUrl: snapshot.data![0][index]
-                                                .fields.imageUrlL,
+                                            bookName: snapshot.data![0][index].fields.title,
+                                            imageUrl: snapshot.data![0][index].fields.imageUrlL,
                                             bookId: widget.id,
                                           ),
                                         ),

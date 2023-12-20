@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:bookverse_mobile/borrow_return/models/book.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +15,10 @@ class DropdownTitle extends StatefulWidget {
 
 class _DropdownTitleState extends State<DropdownTitle> {
   //String baseUrl = "http://127.0.0.1:8000";
-  String baseUrl = "http://10.0.2.2:8000";
+  String baseUrl = "https://bookverse-a05-tk.pbp.cs.ui.ac.id";
   Future<List<Book>> fetchBooks(request) async {
     // var books = await request.get('http://127.0.0.1:8000/books');
-    var books = await request.get('http://127.0.0.1:8000/books');
+    var books = await request.get('https://bookverse-a05-tk.pbp.cs.ui.ac.id/books');
     List<Book> allBooks = [];
     for (var book in books) {
       if (book != null) {

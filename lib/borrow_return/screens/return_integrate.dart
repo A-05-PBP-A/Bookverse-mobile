@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bookverse_mobile/borrow_return/screens/borrow.dart';
-import 'package:bookverse_mobile/borrow_return/widgets/searchbar.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 // import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -18,7 +16,7 @@ class BorrowingPage extends StatefulWidget {
 }
 
 class BorrowingPageState extends State<BorrowingPage> {
-  String baseUrl = "http://127.0.0.1:8000";
+  String baseUrl = "https://bookverse-a05-tk.pbp.cs.ui.ac.id";
   //String baseUrl = "http://10.0.2.2:8000";
   void handleReturn(Borrowing borrowing) {
     // Perform the return operation here
@@ -54,23 +52,9 @@ class BorrowingPageState extends State<BorrowingPage> {
     return Scaffold(
       appBar: AppBar(
           title: const Text('My Borrowing(s)'),
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          actions: [
-            Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: IconButton(
-                  iconSize: 40,
-                  icon: const Icon(Icons.add_circle_outline),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BookFormPage()),
-                    );
-                  },
-                )),
-          ]),
+          backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        foregroundColor: Colors.white,
+      ),
       body: Column(
         children: [
           const SizedBox(

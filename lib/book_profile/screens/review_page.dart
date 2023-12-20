@@ -1,5 +1,6 @@
 import 'package:bookverse_mobile/book_profile/models/review.dart';
 import 'package:bookverse_mobile/book_profile/screens/profile_book.dart';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +30,7 @@ class _ReviewPageState extends State<ReviewPage> {
 Future<List<Review>> fetchReview() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
-        'http://127.0.0.1:8000/get_review_json/${widget.bookId}/');
+        'https://bookverse-a05-tk.pbp.cs.ui.ac.id/get_review_json/${widget.bookId}/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -56,6 +57,8 @@ Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
       title: const Text('Review'),
+      backgroundColor: Color.fromARGB(255, 95, 61, 168),
+      foregroundColor: Colors.white,
     ),
     body: SingleChildScrollView(
       child: Column(
@@ -64,7 +67,7 @@ Widget build(BuildContext context) {
       children: [
         Center(
           child: Image.network(
-            widget.imageUrl,
+            replaceUrl(widget.imageUrl),
             width: 200,
             height: 300,
             fit: BoxFit.cover,
@@ -137,6 +140,7 @@ Widget build(BuildContext context) {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
+                      maxLines: null,
                       decoration: InputDecoration(
                         hintText: "Review",
                         labelText: "Review",
@@ -166,38 +170,59 @@ Widget build(BuildContext context) {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.indigo),
+                            backgroundColor: MaterialStateProperty.all(Colors.indigo),
                           ),
                           onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                  // Kirim ke Django dan tunggu respons
-                                  // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                                  final response = await request.postJson(
-                                  "http://127.0.0.1:8000/create-flutter/",
+                            if (_formKey.currentState!.validate()) {
+                              if (_rating == 0) {
+                                // Display a snackbar or an alert dialog for zero rating
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Rating tidak boleh kosong!"),
+                                  ),
+                                );
+                              } else {
+                                // Kirim ke Django dan tunggu respons
+                                // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                                final response = await request.postJson(
+                                  "https://bookverse-a05-tk.pbp.cs.ui.ac.id/create-flutter/",
                                   jsonEncode(<String, String>{
-                                      'book_id': widget.bookId.toString(),
-                                      'rating': _rating.toString(),
-                                      'review': _review,
-                                      // TODO: Sesuaikan field data sesuai dengan aplikasimu
-                                  }));
-                                  if (response['status'] == 'success') {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
+                                    'book_id': widget.bookId.toString(),
+                                    'rating': _rating.toString(),
+                                    'review': _review,
+                                    // TODO: Sesuaikan field data sesuai dengan aplikasimu
+                                  }),
+                                );
+                                if (response['status'] == 'success') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
                                       content: Text("Review berhasil dibuat!"),
-                                      ));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId,)),
-                                      );
-                                  } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                          content:
-                                              Text("Terdapat kesalahan, silakan coba lagi."),
-                                      ));
-                                  }
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => BookPage(id: widget.bookId)),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Review Already Submitted'),
+                                      content: Text(response['message']),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                               }
+                            }
                           },
                           child: const Text(
                             "Save",

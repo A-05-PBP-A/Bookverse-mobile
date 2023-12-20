@@ -1,18 +1,22 @@
+import 'package:bookverse_mobile/admin/screens/delete_book.dart';
 import 'package:flutter/material.dart';
+import 'package:bookverse_mobile/admin/screens/book_inputform.dart';
+
+void main() {
+  runApp(ProfileApp());
+}
 
 class ProfileApp extends StatelessWidget {
-  const ProfileApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ProfilePage(),
+    return MaterialApp(
+      home: AdminPage(),
     );
   }
 }
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class AdminPage extends StatelessWidget {
+  const AdminPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +29,20 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 30),
               Stack(
                 alignment: Alignment.center,
                 children: [
                   Container(
                     width: 120,
                     height: 120,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -54,7 +63,7 @@ class ProfilePage extends StatelessWidget {
                     left: 12,
                     child: Container(
                       width: 96,
-                      height: 48,
+                      height: 55,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(15),
@@ -66,44 +75,36 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'Irvan.Rizqy',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               const SizedBox(height: 10),
               const Text(
-                'admin_bv@example.com',
+                'BookVerse Admin Page',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.grey,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 30),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  Container(
                     width: 120,
+                    color: Colors.purple.shade50,
                     child: _buildInfoBoxWithButton(context, 'Buku'),
                   ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 400,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildInfoBox('Review', '-'),
-                        const SizedBox(width: 20),
-                        _buildInfoBox('Users', ''),
-                      ],
-                    ),
+                  const SizedBox(height: 10),
+                  Container(
+                    color: Colors.purple.shade50,
+                    child: _buildInfoBox('Review', '-'),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    color: Colors.purple.shade50,
+                    child: _buildInfoBox('Users', ''),
                   ),
                 ],
               ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -114,11 +115,14 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildInfoBox(String label, String content) {
     return Container(
-      width: 300,
+      width: 450,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(
+      color: Colors.grey,
+      width: 2.0,
+    ),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -133,25 +137,35 @@ class ProfilePage extends StatelessWidget {
           const SizedBox(height: 5),
           content == '-'
             ? Table(
-                border: TableBorder.all(color: const Color.fromARGB(255, 237, 174, 247)), // Change border color to light purple
+                border: TableBorder.all(color: const Color.fromARGB(255, 237, 174, 247)),
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
                   TableRow(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('Column 1', textAlign: TextAlign.center),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: const Text('User', textAlign: TextAlign.center),
                       ),
                       Container(
                         padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('Column 2', textAlign: TextAlign.center),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: const Text('Book', textAlign: TextAlign.center),
                       ),
                       Container(
                         padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('Column 3', textAlign: TextAlign.center),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: const Text('Rating', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: const Text('Review', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.purple.withOpacity(0.1),
+                        child: const Text('Delete', textAlign: TextAlign.center),
                       ),
                     ],
                   ),
@@ -159,7 +173,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
+                        color: Colors.purple.withOpacity(0.1),
                         child: const Text('-', textAlign: TextAlign.center),
                       ),
                       Container(
@@ -167,53 +181,6 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.purple.withOpacity(0.1), // Light purple background
                         child: const Text('-', textAlign: TextAlign.center),
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.purple.withOpacity(0.1), // Light purple background
-                        child: const Text('-', textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
                       Container(
                         padding: const EdgeInsets.all(8),
                         color: Colors.purple.withOpacity(0.1), // Light purple background
@@ -251,7 +218,10 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
     padding: const EdgeInsets.all(10),
     margin: const EdgeInsets.symmetric(vertical: 5),
     decoration: BoxDecoration(
-      border: Border.all(color: Colors.grey),
+      border: Border.all(
+      color: Colors.grey,
+      width: 2.0,
+    ),
       borderRadius: BorderRadius.circular(8),
     ),
     child: Column(
@@ -265,33 +235,25 @@ Widget _buildInfoBoxWithButton(BuildContext context, String label) {
         ),
         const SizedBox(height: 5),
         ElevatedButton(
-            onPressed: () {
-              // Navigate to the form input page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const FormInputPage()),
-              );
-            },
-            child: const Text('Add Book'),
-          ),
-
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FormInputPage()),
+            );
+          },
+          child: const Text('Add Book'),
+        ),
+        const SizedBox(height: 10),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DeleteBookScreen()),
+            );
+          },
+          child: const Text('Delete Book'),
+        ),
       ],
     ),
   );
-}
-
-class FormInputPage extends StatelessWidget {
-  const FormInputPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Form Input Page'),
-      ),
-      body: const Center(
-        child: Text('This is the Form Input Page'),
-      ),
-    );
-  }
 }

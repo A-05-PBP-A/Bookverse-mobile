@@ -26,11 +26,11 @@ class _BookFormPageState extends State<BookFormPage> {
   }
 
   // String baseUrl = "http://127.0.0.1:8000";
-  String baseUrl = "http://10.0.2.2:8000";
+  String baseUrl = "https://bookverse-a05-tk.pbp.cs.ui.ac.id";
   final _formKey = GlobalKey<FormState>();
 
   Future<List<Book>> fetchBooks(request) async {
-    var books = await request.get('http://127.0.0.1:8000/books');
+    var books = await request.get('https://bookverse-a05-tk.pbp.cs.ui.ac.id/books');
     List<Book> allBooks = [];
     for (var book in books) {
       if (book != null) {
@@ -42,7 +42,7 @@ class _BookFormPageState extends State<BookFormPage> {
 
   Future<String> fetchUrl(String id) async {
     final response =
-        await http.post(Uri.parse('http://127.0.0.1:8000/get-book-cover/'),
+        await http.post(Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get-book-cover/'),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -71,7 +71,7 @@ class _BookFormPageState extends State<BookFormPage> {
               'Book Loan Form',
             ),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: Color.fromARGB(255, 96, 41, 98),
           foregroundColor: Colors.white,
         ),
         //drawer: const LeftDrawer(),
@@ -129,7 +129,7 @@ class _BookFormPageState extends State<BookFormPage> {
                   padding: const EdgeInsets.all(30.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                      backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 1, 0, 68)),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -166,7 +166,7 @@ class _BookFormPageState extends State<BookFormPage> {
                                           final response =
                                               await request.postJson(
                                                   // "http://127.0.0.1:8000/borrow-flutter/",
-                                                  "http://127.0.0.1:8000/borrow-flutter/",
+                                                  "https://bookverse-a05-tk.pbp.cs.ui.ac.id/borrow-flutter/",
                                                   jsonEncode(<String, String>{
                                                     'book': currentId
                                                   }));

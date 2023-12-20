@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bookverse_mobile/borrow_return/widgets/borrowing_card.dart';
 import 'package:bookverse_mobile/user_profile/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:bookverse_mobile/user_profile/models/books_history_models.dart';
@@ -16,7 +17,7 @@ class _ReadedBooksState extends State<ReadedBooks> {
   Future<List<BooksHistoryModel>> fetchBook(username) async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
     var url = Uri.parse(
-        'http://127.0.0.1:8000/book_history_flutter/$username/');
+        'https://bookverse-a05-tk.pbp.cs.ui.ac.id/book_history_flutter/$username/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -41,6 +42,8 @@ class _ReadedBooksState extends State<ReadedBooks> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Readed Books'),
+        backgroundColor: Color.fromARGB(255, 43, 43, 167),
+        foregroundColor: Colors.white,
       ),
       body: Center(
         child: FutureBuilder<List<BooksHistoryModel>>(
@@ -102,7 +105,7 @@ class BooksHistoryCard extends StatelessWidget {
                   height: 300.0, // Set a fixed height for the image
                   width: 200.0, // Set a fixed width for the image
                   child: Image.network(
-                    bookCover,
+                    replaceUrl(bookCover),
                     fit: BoxFit.cover,
                   ),
                 ),
