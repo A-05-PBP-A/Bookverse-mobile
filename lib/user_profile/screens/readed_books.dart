@@ -19,25 +19,26 @@ class _ReadedBooksState extends State<ReadedBooks> {
     var url = Uri.parse(
         'https://bookverse-a05-tk.pbp.cs.ui.ac.id/book_history_flutter/$username/');
     var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
+      url,
+      headers: {"Content-Type": "application/json"},
     );
-    
+
     var data = jsonDecode(utf8.decode(response.bodyBytes));
 
     List<BooksHistoryModel> books = [];
-      for (var d in data) {
-          if (d != null) {
-              books.add(BooksHistoryModel.fromJson(d));
-          }
+    for (var d in data) {
+      if (d != null) {
+        books.add(BooksHistoryModel.fromJson(d));
       }
-      return books;
+    }
+    return books;
   }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    Future<List<BooksHistoryModel>> listReadedBook = fetchBook(userProvider.username);
+    Future<List<BooksHistoryModel>> listReadedBook =
+        fetchBook(userProvider.username);
 
     return Scaffold(
       appBar: AppBar(

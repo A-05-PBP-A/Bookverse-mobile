@@ -33,7 +33,7 @@ class BorrowingCard extends StatelessWidget {
           );
         },
         child: Card(
-            child: SingleChildScrollView(
+            child: Expanded(
                 child: Container(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 5),

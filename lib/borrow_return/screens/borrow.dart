@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+
+///import 'package:flutter/scheduler.dart';
 import 'package:bookverse_mobile/borrow_return/widgets/dropdown.dart';
 import 'package:bookverse_mobile/borrow_return/screens/return_integrate.dart';
 import 'package:bookverse_mobile/borrow_return/models/book.dart';
@@ -28,9 +29,11 @@ class _BookFormPageState extends State<BookFormPage> {
   // String baseUrl = "http://127.0.0.1:8000";
   String baseUrl = "https://bookverse-a05-tk.pbp.cs.ui.ac.id";
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Book>> fetchBooks(request) async {
-    var books = await request.get('https://bookverse-a05-tk.pbp.cs.ui.ac.id/books');
+    var books =
+        await request.get('https://bookverse-a05-tk.pbp.cs.ui.ac.id/books');
     List<Book> allBooks = [];
     for (var book in books) {
       if (book != null) {
@@ -41,12 +44,12 @@ class _BookFormPageState extends State<BookFormPage> {
   }
 
   Future<String> fetchUrl(String id) async {
-    final response =
-        await http.post(Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get-book-cover/'),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, String>{'id': id}));
+    final response = await http.post(
+        Uri.parse('https://bookverse-a05-tk.pbp.cs.ui.ac.id/get-book-cover/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'id': id}));
 
     if (response.statusCode == 200) {
       // If the server returns a 200 OK response, parse the JSON.
@@ -65,6 +68,7 @@ class _BookFormPageState extends State<BookFormPage> {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: const Center(
             child: Text(
@@ -129,7 +133,8 @@ class _BookFormPageState extends State<BookFormPage> {
                   padding: const EdgeInsets.all(30.0),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 1, 0, 68)),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 1, 0, 68)),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -172,34 +177,54 @@ class _BookFormPageState extends State<BookFormPage> {
                                                   }));
 
                                           if (response['status'] == 'success') {
-                                            SchedulerBinding.instance
-                                                .addPostFrameCallback((_) {
-                                              if (mounted) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                        const SnackBar(
-                                                  content: Text(
+                                            // ignore: use_build_context_synchronously
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Enjoy your book :)'),
+                                                  content: const Text(
                                                       "You successfully borrowed the book!"),
-                                                ));
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const BorrowingPage()),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: const Text('OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const BorrowingPage()),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
                                                 );
-                                              }
-                                            });
+                                              },
+                                            );
                                           } else {
                                             String note = response["message"];
-                                            SchedulerBinding.instance
-                                                .addPostFrameCallback((_) {
-                                              if (mounted) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
+                                            // ignore: use_build_context_synchronously
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text('Error'),
                                                   content: Text(note),
-                                                ));
-                                              }
-                                            });
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: const Text('OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
                                           }
                                         }
                                       }),
